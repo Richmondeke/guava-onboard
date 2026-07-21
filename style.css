@@ -706,59 +706,44 @@ textarea.form-control {
 /* Success Screen */
 .success-container {
   text-align: center;
-  padding: 40px 0;
+  padding: 40px 20px;
 }
-.success-icon {
-  width: 100px;
-  height: 100px;
-  margin: 0 auto 32px;
+.lottie-wrapper {
+  margin: 0 auto 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.success-icon circle {
-  fill: none;
-  stroke: var(--primary-color);
-  stroke-width: 4;
-  stroke-dasharray: 300;
-  stroke-dashoffset: 300;
-  animation: circleAnim 1s ease forwards;
-}
-.success-icon path {
-  fill: none;
-  stroke: var(--primary-color);
-  stroke-width: 4;
-  stroke-linecap: round;
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
-  animation: checkAnim 0.5s ease forwards 0.8s;
-}
-
-@keyframes circleAnim {
-  to { stroke-dashoffset: 0; }
-}
-@keyframes checkAnim {
-  to { stroke-dashoffset: 0; }
-}
-
 .success-heading {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
+  font-family: var(--font-heading);
+  font-weight: 700;
   margin-bottom: 16px;
+  color: var(--text-main);
   background: var(--primary-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .success-text {
   color: var(--text-secondary);
+  font-size: 1.05rem;
   margin-bottom: 32px;
+  line-height: 1.6;
 }
 .success-link {
-  color: white;
+  display: inline-block;
+  color: #ffffff;
+  background: var(--primary-color);
+  padding: 12px 28px;
+  border-radius: 14px;
   text-decoration: none;
   font-weight: 600;
-  border-bottom: 1px solid var(--primary-color);
-  padding-bottom: 2px;
-  transition: all 0.3s;
+  transition: all var(--transition-speed);
+  box-shadow: 0 4px 15px rgba(81, 47, 235, 0.4);
 }
 .success-link:hover {
-  color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(81, 47, 235, 0.6);
 }
 
 /* Confetti */
