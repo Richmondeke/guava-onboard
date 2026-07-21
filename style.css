@@ -399,6 +399,85 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
   margin-top: 10px;
 }
 
+/* PRD Document Preview Styling */
+.prd-preview-modal-content {
+  max-width: 760px;
+  height: 85vh;
+  max-height: 750px;
+}
+
+.prd-preview-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-family: var(--font-body);
+}
+
+.prd-card-section {
+  background: var(--tag-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.prd-card-title {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.prd-kv-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px 20px;
+}
+
+@media (max-width: 600px) {
+  .prd-kv-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.prd-kv-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.prd-kv-item.full-width {
+  grid-column: 1 / -1;
+}
+
+.prd-kv-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.prd-kv-val {
+  font-size: 0.92rem;
+  color: var(--text-main);
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.prd-preview-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid var(--card-border);
+  margin-top: 12px;
+  gap: 12px;
+}
+
 [data-theme="light"] .theme-icon-light { display: inline; }
 [data-theme="light"] .theme-icon-dark { display: none; }
 

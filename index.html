@@ -352,7 +352,32 @@
       <div id="chatFilePreview" class="chat-file-preview"></div>
 
       <div class="chat-actions">
-        <button id="btnSaveChatPRD" type="button" class="btn btn-secondary btn-sm" style="display: none;">💾 Compile & Save PRD to Backend</button>
+        <button id="btnSaveChatPRD" type="button" class="btn btn-primary btn-sm" style="display: none;">📋 Preview & Submit Compiled PRD ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRD Document Preview Modal (For Chatbot & Step Form) -->
+  <div id="prdPreviewModal" class="chat-modal">
+    <div class="chat-modal-content prd-preview-modal-content">
+      <div class="chat-header">
+        <div class="chat-header-info">
+          <div class="chat-avatar">📄</div>
+          <div>
+            <h2 class="chat-title">Compiled Product Requirements Document (PRD)</h2>
+            <p class="chat-subtitle">Review your extracted product specification before final submission</p>
+          </div>
+        </div>
+        <button id="prdPreviewClose" class="chat-modal-close" type="button" aria-label="Close Preview">×</button>
+      </div>
+
+      <div id="prdPreviewBody" class="prd-preview-body">
+        <!-- Structured PRD rendered by JS -->
+      </div>
+
+      <div class="prd-preview-footer">
+        <button id="prdPreviewEditBtn" type="button" class="btn btn-secondary">✏️ Edit Details</button>
+        <button id="prdPreviewSubmitBtn" type="button" class="btn btn-primary">🚀 Confirm & Submit PRD</button>
       </div>
     </div>
   </div>

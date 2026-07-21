@@ -67,11 +67,17 @@ document.addEventListener('DOMContentLoaded', () => {
     chatModalClose: document.getElementById('chatModalClose'),
     chatMessages: document.getElementById('chatMessages'),
     chatInput: document.getElementById('chatInput'),
-    chatSendBtn: document.getElementById('chatSendBtn'),
     chatAttachBtn: document.getElementById('chatAttachBtn'),
     chatFileInput: document.getElementById('chatFileInput'),
     chatFilePreview: document.getElementById('chatFilePreview'),
-    btnSaveChatPRD: document.getElementById('btnSaveChatPRD')
+    btnSaveChatPRD: document.getElementById('btnSaveChatPRD'),
+
+    // PRD Preview Modal
+    prdPreviewModal: document.getElementById('prdPreviewModal'),
+    prdPreviewBody: document.getElementById('prdPreviewBody'),
+    prdPreviewClose: document.getElementById('prdPreviewClose'),
+    prdPreviewEditBtn: document.getElementById('prdPreviewEditBtn'),
+    prdPreviewSubmitBtn: document.getElementById('prdPreviewSubmitBtn')
   };
 
   // Theme Toggle Logic
@@ -888,22 +894,76 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Save Chat PRD to Supabase Backend
+  // ─── PRD Document Preview Engine ───────────────────────────────
+  const renderPRDPreview = () => {
+    if (!els.prdPreviewBody) return;
+
+    const transcriptText = chatHistory.map(m => `${m.role === 'user' ? 'Client' : 'Guava AI'}: ${m.text}`).join('\n\n');
+
+    els.prdPreviewBody.innerHTML = `
+      <div class="prd-card-section">
+        <h4 class="prd-card-title">1. Executive & Contact Information</h4>
+        <div class="prd-kv-grid">
+          <div class="prd-kv-item"><span class="prd-kv-label">Client Name</span><span class="prd-kv-val">${els.fullName?.value || 'Lydra (Product Owner)'}</span></div>
+          <div class="prd-kv-item"><span class="prd-kv-label">Contact Email</span><span class="prd-kv-val">${els.email?.value || 'lydra@loanapp.io'}</span></div>
+          <div class="prd-kv-item"><span class="prd-kv-label">Company / Organization</span><span class="prd-kv-val">${els.company?.value || 'Lydra Fintech / LoanOrigination'}</span></div>
+          <div class="prd-kv-item"><span class="prd-kv-label">Submission Date</span><span class="prd-kv-val">${new Date().toLocaleDateString()}</span></div>
+        </div>
+      </div>
+
+      <div class="prd-card-section">
+        <h4 class="prd-card-title">2. Product Overview & Purpose</h4>
+        <div class="prd-kv-grid">
+          <div class="prd-kv-item full-width"><span class="prd-kv-label">Product Name & Vision</span><span class="prd-kv-val">${els.projectName?.value || 'LoanOrigination Mobile & Web App'}</span></div>
+          <div class="prd-kv-item full-width"><span class="prd-kv-label">Problem Statement & Elevator Pitch</span><span class="prd-kv-val">${els.description?.value || 'Automated digital loan origination platform for credit scoring, document verification, and instant loan approval.'}</span></div>
+        </div>
+      </div>
+
+      <div class="prd-card-section">
+        <h4 class="prd-card-title">3. Interactive Chatbot Conversation Transcript</h4>
+        <div class="prd-kv-grid">
+          <div class="prd-kv-item full-width"><span class="prd-kv-label">Extracted Building Blocks</span><span class="prd-kv-val">${transcriptText || 'Step form brief data compiled.'}</span></div>
+        </div>
+      </div>
+    `;
+  };
+
   if (els.btnSaveChatPRD) {
-    els.btnSaveChatPRD.addEventListener('click', async () => {
-      els.btnSaveChatPRD.disabled = true;
-      els.btnSaveChatPRD.textContent = 'Saving PRD to Backend...';
+    els.btnSaveChatPRD.addEventListener('click', () => {
+      renderPRDPreview();
+      if (els.prdPreviewModal) els.prdPreviewModal.classList.add('open');
+    });
+  }
+
+  if (els.prdPreviewClose) {
+    els.prdPreviewClose.addEventListener('click', () => {
+      if (els.prdPreviewModal) els.prdPreviewModal.classList.remove('open');
+    });
+  }
+
+  if (els.prdPreviewEditBtn) {
+    els.prdPreviewEditBtn.addEventListener('click', () => {
+      if (els.prdPreviewModal) els.prdPreviewModal.classList.remove('open');
+    });
+  }
+
+  if (els.prdPreviewSubmitBtn) {
+    els.prdPreviewSubmitBtn.addEventListener('click', async () => {
+      els.prdPreviewSubmitBtn.disabled = true;
+      els.prdPreviewSubmitBtn.textContent = 'Submitting PRD to Backend...';
 
       const fullChatTranscript = chatHistory.map(m => `${m.role === 'user' ? 'Client' : 'Guava AI'}: ${m.text}`).join('\n\n');
 
       const payload = {
         contact: {
-          fullName: 'AI Chat Client',
-          email: 'chat-client@guava.earth'
+          fullName: els.fullName?.value || 'Lydra (Product Owner)',
+          email: els.email?.value || 'lydra@loanapp.io',
+          company: els.company?.value || 'LoanOrigination App',
+          phone: els.phone?.value || '+1 (555) 234-5678'
         },
         overviewAndValueProp: {
-          projectName: 'Guava AI Interactive Brief',
-          description: fullChatTranscript.substring(0, 500) + '...'
+          projectName: els.projectName?.value || 'LoanOrigination App',
+          description: els.description?.value || 'Digital loan origination and scoring application'
         },
         aiChatTranscript: fullChatTranscript,
         submittedAt: new Date().toISOString()
@@ -918,7 +978,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const data = await res.json();
         if (res.ok && data.success) {
+          if (els.prdPreviewModal) els.prdPreviewModal.classList.remove('open');
+          if (els.chatModal) els.chatModal.classList.remove('open');
           addChatBubble(`🎉 Excellent! Your PRD transcript has been successfully saved to the backend (Lead ID: ${data.leadId}). Our Guava engineering team will review it and follow up shortly!`, 'ai');
+          
+          // Hide form and display success screen
+          if (els.stepFormCard) els.stepFormCard.style.display = 'none';
+          if (els.navButtons) els.navButtons.style.display = 'none';
+          if (els.stepSuccess) els.stepSuccess.style.display = 'block';
           triggerConfetti();
         } else {
           alert('Failed to save PRD. Please try again.');
@@ -927,8 +994,8 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error(err);
         alert('Network error saving PRD.');
       } finally {
-        els.btnSaveChatPRD.disabled = false;
-        els.btnSaveChatPRD.textContent = '💾 Compile & Save PRD to Backend';
+        els.prdPreviewSubmitBtn.disabled = false;
+        els.prdPreviewSubmitBtn.textContent = '🚀 Confirm & Submit PRD';
       }
     });
   }
