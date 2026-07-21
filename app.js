@@ -43,8 +43,37 @@ document.addEventListener('DOMContentLoaded', () => {
     // Nav
     backBtn: document.getElementById('backBtn'),
     nextBtn: document.getElementById('nextBtn'),
-    navButtons: document.getElementById('navButtons')
+    navButtons: document.getElementById('navButtons'),
+    
+    // Theme Toggle
+    themeToggle: document.getElementById('themeToggle')
   };
+
+  // Theme Toggle Logic
+  const savedTheme = localStorage.getItem('guava_theme');
+  if (savedTheme) {
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  }
+
+  if (els.themeToggle) {
+    els.themeToggle.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      let targetTheme = 'light';
+      
+      if (currentTheme === 'light') {
+        targetTheme = 'dark';
+      } else if (currentTheme === 'dark') {
+        targetTheme = 'light';
+      } else {
+        // If not set, check system preference
+        const isSystemLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+        targetTheme = isSystemLight ? 'dark' : 'light';
+      }
+      
+      document.documentElement.setAttribute('data-theme', targetTheme);
+      localStorage.setItem('guava_theme', targetTheme);
+    });
+  }
 
   // State
   let currentStep = 1;
