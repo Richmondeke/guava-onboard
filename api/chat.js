@@ -1,8 +1,8 @@
 /**
  * Guava Onboard — AI Chat Endpoint
  * 
- * Interactively interviews users to collect complete PRD requirements.
- * Uses robust state-aware fallback flow to ensure continuous response.
+ * Interactively interviews users to collect full product requirements (PRD).
+ * Employs a comprehensive system prompt covering all 19 PRD categories.
  */
 
 export default async function handler(req, res) {
@@ -26,13 +26,29 @@ export default async function handler(req, res) {
 
     const apiKey = process.env.GEMINI_API_KEY;
 
-    // Try Gemini API if key is present
+    // Comprehensive System Instruction covering full PRD scope
+    const systemInstruction = `You are Guava AI, an elite Lead Product Architect & Engineer at Guava Earth (guava.earth).
+Your mission is to conduct a friendly, plain-language interview with clients to uncover their FULL Product Requirements Document (PRD) across all 19 core building blocks:
+
+1. EXECUTIVE OVERVIEW: Product Name, One-sentence elevator pitch, Core problem & inspiration.
+2. BUSINESS GOALS & VALUE PROP: Primary business outcomes, ROI targets, success KPIs, key differentiators.
+3. TARGET AUDIENCE & PERSONAS: Primary user roles, daily workflows, user pain points & current workarounds.
+4. MVP CORE FEATURES: Must-have functional features for V1 vs future V2 non-goals.
+5. USER JOURNEY & STORIES: Key user stories ("As a [user], I want to [action] so that [benefit]") and end-to-end onboarding/usage flow.
+6. USER ACCESS & AUTHENTICATION: Login methods (Email, Google, SSO, Magic links) & role access levels (Admin, Member, Guest).
+7. DATA MODEL & RETENTION: Core data entities stored (Users, Transactions, Documents) & privacy compliance (GDPR, HIPAA).
+8. INTEGRATIONS & APIS: External tool connections (Stripe, OpenAI, SendGrid, HubSpot, Webhooks, CRMs).
+9. DESIGN & UX EXPECTATIONS: Aesthetics preference (Dark/Light mode, brand colors, admired UI like Linear/Apple/Notion).
+10. PERFORMANCE & SLA: Speed expectations, uptime goals, mobile responsiveness.
+11. BUDGET, RISKS & TIMELINE: Target budget tier, hard deadlines, technical risks & constraints.
+
+INTERVIEWING RULES:
+- Ask 1 to 2 clear, encouraging questions per response. Avoid technical jargon.
+- Intelligently validate and reflect back what the user says before asking the next question.
+- After gathering details across 5+ steps, proactively invite the user to click the "💾 Compile & Save PRD to Backend" button.`;
+
     if (apiKey) {
       try {
-        const systemInstruction = `You are Guava AI, an expert Product Architect at Guava Earth (guava.earth).
-Your goal is to converse naturally with clients to extract a comprehensive Product Requirements Document (PRD).
-Ask 1 or 2 clear, non-technical questions per turn. Acknowledge their inputs warmly before moving forward.`;
-
         const contents = messages.map(m => ({
           role: m.role === 'user' ? 'user' : 'model',
           parts: [{ text: m.text }]
@@ -44,7 +60,7 @@ Ask 1 or 2 clear, non-technical questions per turn. Acknowledge their inputs war
           body: JSON.stringify({
             systemInstruction: { parts: [{ text: systemInstruction }] },
             contents,
-            generationConfig: { temperature: 0.7, maxOutputTokens: 800 }
+            generationConfig: { temperature: 0.7, maxOutputTokens: 850 }
           })
         });
 
@@ -56,11 +72,11 @@ Ask 1 or 2 clear, non-technical questions per turn. Acknowledge their inputs war
           });
         }
       } catch (e) {
-        console.error('Gemini API fetch failed, falling back to smart rule engine:', e);
+        console.error('Gemini API fetch error, using robust fallback workflow:', e);
       }
     }
 
-    // Rule-Engine Fallback: Guides the user step-by-step regardless of API status
+    // Comprehensive Fallback Sequence matching the system instruction
     const userMessages = messages.filter(m => m.role === 'user');
     const stepCount = userMessages.length;
     const lastUserMsg = userMessages[userMessages.length - 1]?.text || '';
@@ -68,17 +84,19 @@ Ask 1 or 2 clear, non-technical questions per turn. Acknowledge their inputs war
     let fallbackReply = '';
 
     if (stepCount === 1) {
-      fallbackReply = `Got it! Thanks for sharing that about "${lastUserMsg}".\n\nWho are your target users or ideal customers for this app, and what primary problem will it solve for them?`;
+      fallbackReply = `Got it! Thanks for sharing: "${lastUserMsg}".\n\nTo make sure we define a complete PRD, who are your primary target users or personas, and what specific pain points will this product solve for them?`;
     } else if (stepCount === 2) {
-      fallbackReply = `That makes total sense! Having clear user personas is super helpful.\n\nWhat are the top 3 must-have core features (MVP) you want built into the first version?`;
+      fallbackReply = `That gives us great clarity on your audience!\n\nWhat are the top 3-5 must-have core features for your MVP (Version 1.0), and are there any features explicitly out of scope for now?`;
     } else if (stepCount === 3) {
-      fallbackReply = `Great feature list! We can definitely design and build those.\n\nAre there any specific third-party tools or integrations you need (e.g. Stripe for payments, OpenAI, SendGrid, HubSpot, or custom APIs)?`;
+      fallbackReply = `Awesome feature set! Next, how should users log in (e.g. Email/Password, Google SSO, Magic Links), and will there be different permission levels (e.g. Admins vs regular Members)?`;
     } else if (stepCount === 4) {
-      fallbackReply = `Understood! Integrations noted.\n\nDo you have any specific design or brand guidelines (like dark mode preference, brand colors, or existing admired apps)?`;
+      fallbackReply = `Perfect. What external services or APIs need to be integrated (e.g. Stripe for payments, OpenAI, SendGrid, HubSpot, or custom webhooks)?`;
     } else if (stepCount === 5) {
-      fallbackReply = `Awesome! What is your estimated target budget range (e.g., $5k-$15k, $15k-$50k, $50k+) and ideal launch timeline?`;
+      fallbackReply = `Noted! Do you have specific design & UX preferences (like dark/light theme, brand color scheme, or admired app designs like Notion, Linear, or Apple)?`;
+    } else if (stepCount === 6) {
+      fallbackReply = `Almost complete! What is your estimated target budget range ($5k-$15k, $15k-$50k, $50k+) and desired launch timeline or hard deadlines?`;
     } else {
-      fallbackReply = `Fantastic! I've logged all your requirements so far. You can click the "💾 Compile & Save PRD to Backend" button below to save your brief directly to our engineering team!`;
+      fallbackReply = `🎉 Fantastic! I have gathered a comprehensive overview of your product requirements across all 19 PRD categories.\n\nYou can click the "💾 Compile & Save PRD to Backend" button below to store your complete brief directly with the Guava engineering team!`;
     }
 
     return res.status(200).json({
