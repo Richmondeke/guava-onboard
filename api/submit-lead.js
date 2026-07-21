@@ -45,12 +45,8 @@ export default async function handler(req, res) {
       errors.push('Invalid email format');
     }
 
-    if (!body.projectTypes || body.projectTypes.length === 0) {
-      errors.push('At least one project type is required');
-    }
-
-    if (!body.vision?.description?.trim() || body.vision.description.trim().length < 20) {
-      errors.push('Project description is required (min 20 characters)');
+    if (!body.overview?.description?.trim()) {
+      errors.push('Executive summary/problem statement is required');
     }
 
     if (errors.length > 0) {
@@ -60,36 +56,46 @@ export default async function handler(req, res) {
       });
     }
 
-    // ─── Sanitize & structure the lead data ─────────────────────
+    // ─── Sanitize & structure the comprehensive PRD data ─────────────
     const lead = {
       id: generateLeadId(),
+      type: 'FULL_PRD_SUBMISSION',
       contact: {
         fullName: sanitize(body.contact.fullName),
         email: sanitize(body.contact.email).toLowerCase(),
         company: sanitize(body.contact.company || ''),
         phone: sanitize(body.contact.phone || ''),
       },
-      projectTypes: Array.isArray(body.projectTypes) 
-        ? body.projectTypes.map(sanitize) 
-        : [],
-      scope: {
-        budget: sanitize(body.scope?.budget || 'Not specified'),
-        timeline: sanitize(body.scope?.timeline || 'Not specified'),
-        teamSize: sanitize(body.scope?.teamSize || 'Not specified'),
+      overview: {
+        projectName: sanitize(body.overview?.projectName || ''),
+        description: sanitize(body.overview?.description || ''),
+        successMetrics: sanitize(body.overview?.successMetrics || ''),
       },
-      techStack: {
-        frontend: sanitizeArray(body.techStack?.frontend),
-        backend: sanitizeArray(body.techStack?.backend),
-        database: sanitizeArray(body.techStack?.database),
-        ai: sanitizeArray(body.techStack?.ai),
-        cloud: sanitizeArray(body.techStack?.cloud),
-        custom: sanitizeArray(body.techStack?.custom),
-        letGuavaDecide: Boolean(body.techStack?.letGuavaDecide),
+      personas: {
+        userRoles: sanitize(body.personas?.userRoles || ''),
+        userPainPoints: sanitize(body.personas?.userPainPoints || ''),
+        targetPlatforms: sanitizeArray(body.personas?.targetPlatforms),
       },
-      vision: {
-        projectName: sanitize(body.vision?.projectName || ''),
-        description: sanitize(body.vision.description),
-        additionalNotes: sanitize(body.vision?.additionalNotes || ''),
+      functionalScope: {
+        featureModules: sanitizeArray(body.functionalScope?.featureModules),
+        coreFeatureDetails: sanitize(body.functionalScope?.coreFeatureDetails || ''),
+      },
+      authAndSecurity: {
+        authTypes: sanitizeArray(body.authAndSecurity?.authTypes),
+        permissionLevels: sanitize(body.authAndSecurity?.permissionLevels || ''),
+        complianceNeeds: sanitize(body.authAndSecurity?.complianceNeeds || ''),
+      },
+      integrations: {
+        integrationTypes: sanitizeArray(body.integrations?.integrationTypes),
+        customIntegrations: sanitize(body.integrations?.customIntegrations || ''),
+      },
+      techAndDelivery: {
+        budget: sanitize(body.techAndDelivery?.budget || 'Not specified'),
+        timeline: sanitize(body.techAndDelivery?.timeline || 'Not specified'),
+        frontend: sanitizeArray(body.techAndDelivery?.frontend),
+        backend: sanitizeArray(body.techAndDelivery?.backend),
+        ai: sanitizeArray(body.techAndDelivery?.ai),
+        letGuavaDecide: Boolean(body.techAndDelivery?.letGuavaDecide),
       },
       metadata: {
         submittedAt: new Date().toISOString(),

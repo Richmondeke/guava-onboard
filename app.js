@@ -3,49 +3,53 @@ document.addEventListener('DOMContentLoaded', () => {
   const els = {
     progressFill: document.getElementById('progressFill'),
     progressInfo: document.getElementById('progressInfo'),
-    steps: Array.from({ length: 6 }, (_, i) => document.getElementById(`step-${i + 1}`)),
+    steps: Array.from({ length: 8 }, (_, i) => document.getElementById(`step-${i + 1}`)),
     stepSuccess: document.getElementById('step-success'),
     
-    // Step 1
+    // Step 1: Contact
     fullName: document.getElementById('fullName'),
     email: document.getElementById('email'),
     company: document.getElementById('company'),
     phone: document.getElementById('phone'),
     
-    // Step 2
-    projectTypeTags: document.getElementById('projectTypeTags'),
-    customProjectType: document.getElementById('customProjectType'),
-    addProjectTypeBtn: document.getElementById('addProjectTypeBtn'),
-    
-    // Step 3
-    budget: document.getElementById('budget'),
-    timeline: document.getElementById('timeline'),
-    teamSize: document.getElementById('teamSize'),
-    
-    // Step 4
-    frontendTags: document.getElementById('frontendTags'),
-    backendTags: document.getElementById('backendTags'),
-    databaseTags: document.getElementById('databaseTags'),
-    aiTags: document.getElementById('aiTags'),
-    cloudTags: document.getElementById('cloudTags'),
-    letGuavaDecide: document.getElementById('letGuavaDecide'),
-    customTech: document.getElementById('customTech'),
-    addTechBtn: document.getElementById('addTechBtn'),
-    
-    // Step 5
+    // Step 2: Overview
     projectName: document.getElementById('projectName'),
     description: document.getElementById('description'),
-    additionalNotes: document.getElementById('additionalNotes'),
+    successMetrics: document.getElementById('successMetrics'),
     
-    // Step 6
+    // Step 3: Personas
+    userRoles: document.getElementById('userRoles'),
+    userPainPoints: document.getElementById('userPainPoints'),
+    platformTypeTags: document.getElementById('platformTypeTags'),
+
+    // Step 4: Functions & Features
+    featureModulesTags: document.getElementById('featureModulesTags'),
+    coreFeatureDetails: document.getElementById('coreFeatureDetails'),
+
+    // Step 5: Auth & Security
+    authTypeTags: document.getElementById('authTypeTags'),
+    permissionLevels: document.getElementById('permissionLevels'),
+    complianceNeeds: document.getElementById('complianceNeeds'),
+
+    // Step 6: Integrations
+    integrationTags: document.getElementById('integrationTags'),
+    customIntegrations: document.getElementById('customIntegrations'),
+
+    // Step 7: Tech & Scope
+    budget: document.getElementById('budget'),
+    timeline: document.getElementById('timeline'),
+    frontendTags: document.getElementById('frontendTags'),
+    backendTags: document.getElementById('backendTags'),
+    aiTags: document.getElementById('aiTags'),
+    letGuavaDecide: document.getElementById('letGuavaDecide'),
+
+    // Step 8: Review
     reviewContent: document.getElementById('reviewContent'),
     
     // Nav
     backBtn: document.getElementById('backBtn'),
     nextBtn: document.getElementById('nextBtn'),
     navButtons: document.getElementById('navButtons'),
-    
-    // Theme Toggle
     themeToggle: document.getElementById('themeToggle')
   };
 
@@ -65,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (currentTheme === 'dark') {
         targetTheme = 'light';
       } else {
-        // If not set, check system preference
         const isSystemLight = window.matchMedia('(prefers-color-scheme: light)').matches;
         targetTheme = isSystemLight ? 'dark' : 'light';
       }
@@ -77,45 +80,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // State
   let currentStep = 1;
-  const totalSteps = 6;
+  const totalSteps = 8;
   const state = {
-    projectTypes: new Set(),
+    platforms: new Set(),
+    featureModules: new Set(),
+    authTypes: new Set(),
+    integrations: new Set(),
     techStack: {
       frontend: new Set(),
       backend: new Set(),
-      database: new Set(),
       ai: new Set(),
-      cloud: new Set(),
-      custom: new Set(),
       letGuavaDecide: false
     }
   };
 
-  // Data to render
+  // Tag datasets for rendering
   const tagData = {
-    projectType: [
-      { label: 'Web Application', emoji: '🌐' },
-      { label: 'Mobile App', emoji: '📱' },
-      { label: 'AI Agent / Chatbot', emoji: '🤖' },
-      { label: 'Automation Workflow', emoji: '⚡' },
-      { label: 'E-Commerce Platform', emoji: '🛒' },
-      { label: 'Dashboard / Analytics', emoji: '📊' },
-      { label: 'API / Integration', emoji: '🔌' },
-      { label: 'Landing Page / Website', emoji: '🎨' },
-      { label: 'CRM / Sales Tool', emoji: '💬' },
-      { label: 'SaaS Platform', emoji: '🔄' }
+    platforms: [
+      { label: 'Desktop Web App', emoji: '💻' },
+      { label: 'Mobile Responsive Web', emoji: '📱' },
+      { label: 'iOS Native App', emoji: '🍎' },
+      { label: 'Android Native App', emoji: '🤖' },
+      { label: 'Chrome Extension', emoji: '🧩' },
+      { label: 'Desktop App (Electron)', emoji: '🖥️' }
     ],
-    frontend: ['React', 'Next.js', 'Vue', 'Angular', 'Svelte', 'HTML/CSS'],
-    backend: ['Node.js', 'Python', 'Go', 'Java', 'Ruby', 'PHP'],
-    database: ['PostgreSQL', 'MongoDB', 'Supabase', 'Firebase', 'MySQL', 'Redis'],
-    ai: ['OpenAI', 'Claude', 'Gemini', 'Custom LLM', 'Computer Vision', 'Voice AI'],
-    cloud: ['AWS', 'GCP', 'Azure', 'Vercel', 'Make.com', 'n8n', 'Zapier', 'Latenode']
+    featureModules: [
+      { label: 'User Dashboard & Analytics', emoji: '📊' },
+      { label: 'AI Chatbot & Conversational UI', emoji: '💬' },
+      { label: 'Automated Workflow Engine', emoji: '⚡' },
+      { label: 'E-Commerce / Checkout / Billing', emoji: '🛒' },
+      { label: 'CRM & Lead Management', emoji: '👥' },
+      { label: 'File Upload & Document Parsing', emoji: '📄' },
+      { label: 'Real-time Notifications / Alerts', emoji: '🔔' },
+      { label: 'Multi-Tenant Workspace / Organizations', emoji: '🏢' },
+      { label: 'Search & Filtering Engine', emoji: '🔍' },
+      { label: 'Public API / Webhook Subscriptions', emoji: '🔌' }
+    ],
+    authTypes: [
+      { label: 'Email & Password', emoji: '🔑' },
+      { label: 'Social Login (Google / Apple / GitHub)', emoji: '🌐' },
+      { label: 'Magic Link (Passwordless)', emoji: '✨' },
+      { label: 'Enterprise Single Sign-On (SAML / Okta)', emoji: '🏢' },
+      { label: 'Two-Factor Authentication (2FA)', emoji: '🛡️' },
+      { label: 'Public Access (No Auth Needed)', emoji: '🔓' }
+    ],
+    integrations: [
+      { label: 'Payment Gateway (Stripe / PayPal)', emoji: '💳' },
+      { label: 'CRM (HubSpot / Salesforce / Notion)', emoji: '💼' },
+      { label: 'AI APIs (OpenAI / Claude / Gemini)', emoji: '🧠' },
+      { label: 'Transactional Email (Resend / SendGrid)', emoji: '✉️' },
+      { label: 'Messaging (Slack / WhatsApp / Telegram)', emoji: '💬' },
+      { label: 'Analytics (PostHog / Mixpanel / Google)', emoji: '📈' },
+      { label: 'Storage (AWS S3 / Cloudflare R2)', emoji: '☁️' }
+    ],
+    frontend: ['React', 'Next.js', 'Vue', 'React Native', 'Flutter', 'TailwindCSS'],
+    backend: ['Node.js', 'Python (FastAPI/Django)', 'PostgreSQL', 'Supabase', 'MongoDB', 'Redis'],
+    ai: ['OpenAI GPT-4o', 'Claude 3.5 Sonnet', 'Custom RAG System', 'Make.com / n8n', 'LangChain / LlamaIndex']
   };
 
-  // Render Tags
-  const createTagElement = (label, category, isCustom = false, emoji = null) => {
+  // Tag Element Generator
+  const createTagElement = (label, category, emoji = null) => {
     const btn = document.createElement('button');
-    btn.className = `tag-card ${isCustom ? 'custom-tag selected' : ''}`;
+    btn.className = 'tag-card';
     btn.dataset.value = label;
     btn.dataset.category = category;
     btn.type = 'button';
@@ -125,35 +151,22 @@ document.addEventListener('DOMContentLoaded', () => {
       innerHTML += `<span class="tag-emoji">${emoji}</span>`;
     }
     innerHTML += `<span class="tag-label">${label}</span>`;
-    if (isCustom) {
-      innerHTML += `<span class="remove-tag">×</span>`;
-    }
-    
     btn.innerHTML = innerHTML;
     
-    // Event listener
-    btn.addEventListener('click', (e) => {
-      if (e.target.classList.contains('remove-tag')) {
-        btn.remove();
-        if (category === 'projectType') {
-          state.projectTypes.delete(label);
-        } else {
-          state.techStack.custom.delete(label);
-        }
-        return;
-      }
-      
-      if (isCustom) return; // Custom tags are always selected, can only be removed
-      
+    btn.addEventListener('click', () => {
       btn.classList.toggle('selected');
       const isSelected = btn.classList.contains('selected');
       
-      if (category === 'projectType') {
-        if (isSelected) state.projectTypes.add(label);
-        else state.projectTypes.delete(label);
+      if (category === 'platforms') {
+        if (isSelected) state.platforms.add(label); else state.platforms.delete(label);
+      } else if (category === 'featureModules') {
+        if (isSelected) state.featureModules.add(label); else state.featureModules.delete(label);
+      } else if (category === 'authTypes') {
+        if (isSelected) state.authTypes.add(label); else state.authTypes.delete(label);
+      } else if (category === 'integrations') {
+        if (isSelected) state.integrations.add(label); else state.integrations.delete(label);
       } else {
-        if (isSelected) state.techStack[category].add(label);
-        else state.techStack[category].delete(label);
+        if (isSelected) state.techStack[category].add(label); else state.techStack[category].delete(label);
       }
       
       clearError(btn.closest('.form-group'));
@@ -163,14 +176,23 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const renderTags = () => {
-    // Project Types
-    tagData.projectType.forEach(item => {
-      if (els.projectTypeTags) {
-        els.projectTypeTags.appendChild(createTagElement(item.label, 'projectType', false, item.emoji));
+    // Categorized Render
+    const maps = [
+      { key: 'platforms', el: els.platformTypeTags },
+      { key: 'featureModules', el: els.featureModulesTags },
+      { key: 'authTypes', el: els.authTypeTags },
+      { key: 'integrations', el: els.integrationTags }
+    ];
+
+    maps.forEach(m => {
+      if (m.el) {
+        tagData[m.key].forEach(item => {
+          m.el.appendChild(createTagElement(item.label, m.key, item.emoji));
+        });
       }
     });
-    // Tech
-    ['frontend', 'backend', 'database', 'ai', 'cloud'].forEach(category => {
+
+    ['frontend', 'backend', 'ai'].forEach(category => {
       if (els[`${category}Tags`]) {
         tagData[category].forEach(label => {
           els[`${category}Tags`].appendChild(createTagElement(label, category));
@@ -220,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
         handleAddCustomTag(els.customTech, container, 'custom');
       }
     });
-  }
+  };
 
   // Let Guava Decide
   if (els.letGuavaDecide) {
@@ -229,17 +251,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const isActive = els.letGuavaDecide.classList.contains('active');
       state.techStack.letGuavaDecide = isActive;
       
-      const grids = document.querySelectorAll('#step-4 .tag-grid');
+      const grids = document.querySelectorAll('#step-7 .tag-grid');
       
       if (isActive) {
         grids.forEach(grid => grid.classList.add('dimmed'));
-        // Deselect all tech tags
-        const selectedTechTags = document.querySelectorAll('#step-4 .tag-card.selected');
+        const selectedTechTags = document.querySelectorAll('#step-7 .tag-card.selected');
         selectedTechTags.forEach(tag => tag.classList.remove('selected'));
-        // Clear sets
-        ['frontend', 'backend', 'database', 'ai', 'cloud', 'custom'].forEach(cat => state.techStack[cat].clear());
-        // Remove custom tech tags from DOM
-        document.querySelectorAll('#step-4 .custom-tag').forEach(tag => tag.remove());
+        ['frontend', 'backend', 'ai'].forEach(cat => state.techStack[cat].clear());
       } else {
         grids.forEach(grid => grid.classList.remove('dimmed'));
       }
@@ -256,10 +274,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     if (els.nextBtn) {
-      if (currentStep === 5) {
-        els.nextBtn.textContent = 'Review Brief →';
-      } else if (currentStep === 6) {
-        els.nextBtn.textContent = 'Submit Brief →';
+      if (currentStep === 7) {
+        els.nextBtn.textContent = 'Review PRD →';
+      } else if (currentStep === 8) {
+        els.nextBtn.textContent = 'Generate & Submit PRD →';
       } else {
         els.nextBtn.textContent = 'Continue →';
       }
@@ -286,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
       outStep.style.display = 'none';
       outStep.classList.remove(outClass);
       
-      if (n === 6) buildReviewStep();
+      if (n === 8) buildReviewStep();
       
       inStep.style.display = 'block';
       inStep.classList.add(inClass);
@@ -331,7 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const clearErrorOnInput = (e) => clearError(e.target.closest('.form-group'));
 
   // Attach clear error listeners
-  [els.fullName, els.email, els.budget, els.timeline, els.teamSize, els.description].forEach(el => {
+  [els.fullName, els.email, els.description, els.userRoles, els.coreFeatureDetails].forEach(el => {
     if(el) {
       el.addEventListener('input', clearErrorOnInput);
       el.addEventListener('change', clearErrorOnInput);
@@ -352,73 +370,85 @@ document.addEventListener('DOMContentLoaded', () => {
         isValid = false;
       }
     } else if (step === 2) {
-      // Step 2 is now Vision
-      if (els.description && els.description.value.trim().length < 20) {
-        showError(els.description, 'Description must be at least 20 characters');
+      if (els.description && els.description.value.trim().length < 15) {
+        showError(els.description, 'Executive summary/problem statement is required');
         isValid = false;
       }
     } else if (step === 3) {
-      // Step 3 is now Project Type
-      if (state.projectTypes.size === 0 && els.projectTypeTags) {
-        showError(els.projectTypeTags, 'Please select at least one project type');
+      if (els.userRoles && !els.userRoles.value.trim()) {
+        showError(els.userRoles, 'Please define target user roles/personas');
         isValid = false;
       }
     } else if (step === 4) {
-      // Step 4 is now Scope (Optional dropdowns or validated if selected)
-      [els.budget, els.timeline, els.teamSize].forEach(el => {
-        if (el && !el.value) {
-          showError(el, 'This field is required');
-          isValid = false;
-        }
-      });
-    } else if (step === 5) {
-      // Step 5 is Tech Stack (Optional - no mandatory validation)
-      isValid = true;
+      if (els.coreFeatureDetails && els.coreFeatureDetails.value.trim().length < 15) {
+        showError(els.coreFeatureDetails, 'Please outline key features');
+        isValid = false;
+      }
     }
     
     return isValid;
   };
 
-  // Review Step
+  // Review Step (Step 8)
   const buildReviewStep = () => {
     if (!els.reviewContent) return;
     
     const reviewData = {
-      Contact: [
+      '1. Executive Contact': [
         { label: 'Name', value: els.fullName?.value },
         { label: 'Email', value: els.email?.value },
         { label: 'Company', value: els.company?.value || 'N/A' },
         { label: 'Phone', value: els.phone?.value || 'N/A' }
       ],
-      Vision: [
-        { label: 'Project Name', value: els.projectName?.value || 'N/A' },
-        { label: 'Description', value: els.description?.value },
-        { label: 'Inspiration & Notes', value: els.additionalNotes?.value || 'N/A' }
+      '2. Product Overview': [
+        { label: 'Product Name', value: els.projectName?.value || 'N/A' },
+        { label: 'Problem & Vision', value: els.description?.value },
+        { label: 'Success Metrics', value: els.successMetrics?.value || 'N/A' }
       ],
-      'Project Types': Array.from(state.projectTypes),
-      Scope: [
-        { label: 'Budget', value: els.budget?.options?.[els.budget.selectedIndex]?.text || els.budget?.value },
-        { label: 'Timeline', value: els.timeline?.options?.[els.timeline.selectedIndex]?.text || els.timeline?.value },
-        { label: 'Team Size', value: els.teamSize?.options?.[els.teamSize.selectedIndex]?.text || els.teamSize?.value }
+      '3. Personas & Platforms': [
+        { label: 'User Roles', value: els.userRoles?.value },
+        { label: 'Pain Points', value: els.userPainPoints?.value || 'N/A' }
       ],
-      'Tech Stack': state.techStack.letGuavaDecide ? ['Let Guava Decide ✨'] : [
+      'Target Platforms': Array.from(state.platforms),
+      '4. Functional Scope': [
+        { label: 'Core Features', value: els.coreFeatureDetails?.value }
+      ],
+      'Feature Modules': Array.from(state.featureModules),
+      '5. Auth & Access': [
+        { label: 'Permissions', value: els.permissionLevels?.value || 'N/A' },
+        { label: 'Compliance', value: els.complianceNeeds?.value || 'N/A' }
+      ],
+      'Auth Methods': Array.from(state.authTypes),
+      '6. Integrations & Data': [
+        { label: 'Custom APIs', value: els.customIntegrations?.value || 'N/A' }
+      ],
+      Integrations: Array.from(state.integrations),
+      '7. Tech & Scope': [
+        { label: 'Budget', value: els.budget?.options?.[els.budget.selectedIndex]?.text || els.budget?.value || 'N/A' },
+        { label: 'Timeline', value: els.timeline?.options?.[els.timeline.selectedIndex]?.text || els.timeline?.value || 'N/A' }
+      ],
+      'Tech Stack': state.techStack.letGuavaDecide ? ['Let Guava Recommend ✨'] : [
         ...state.techStack.frontend,
         ...state.techStack.backend,
-        ...state.techStack.database,
-        ...state.techStack.ai,
-        ...state.techStack.cloud,
-        ...state.techStack.custom
+        ...state.techStack.ai
       ].filter(Boolean)
     };
 
     let html = '';
     
     const stepMap = {
-      'Contact': 1,
-      'Vision': 2,
-      'Project Types': 3,
-      'Scope': 4,
-      'Tech Stack': 5
+      '1. Executive Contact': 1,
+      '2. Product Overview': 2,
+      '3. Personas & Platforms': 3,
+      'Target Platforms': 3,
+      '4. Functional Scope': 4,
+      'Feature Modules': 4,
+      '5. Auth & Access': 5,
+      'Auth Methods': 5,
+      '6. Integrations & Data': 6,
+      Integrations: 6,
+      '7. Tech & Scope': 7,
+      'Tech Stack': 7
     };
 
     for (const [section, data] of Object.entries(reviewData)) {
@@ -426,80 +456,91 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="review-section">
           <div class="review-header">
             <h3>${section}</h3>
-            <button class="edit-btn" data-goto="${stepMap[section]}">Edit</button>
+            <button type="button" class="edit-btn" data-goto="${stepMap[section]}">Edit ✏️</button>
           </div>
           <div class="review-content-body">
       `;
       
-      if (Array.isArray(data) && typeof data[0] === 'string') {
-        // Pills
+      if (Array.isArray(data)) {
         if (data.length === 0) {
-          html += `<p>None selected</p>`;
-        } else {
+          html += `<p class="review-none">None specified</p>`;
+        } else if (typeof data[0] === 'string') {
           html += `<div class="review-pills">`;
           data.forEach(pill => {
             html += `<span class="review-pill">${pill}</span>`;
           });
           html += `</div>`;
+        } else {
+          html += `<div class="review-kv-list">`;
+          data.forEach(kv => {
+            html += `
+              <div class="review-kv">
+                <span class="review-label">${kv.label}:</span>
+                <span class="review-value">${kv.value || 'N/A'}</span>
+              </div>
+            `;
+          });
+          html += `</div>`;
         }
-      } else {
-        // Key-Value
-        html += `<div class="review-kv-list">`;
-        data.forEach(kv => {
-          html += `
-            <div class="review-kv">
-              <span class="review-kv-label">${kv.label}:</span>
-              <span class="review-kv-value">${kv.value}</span>
-            </div>
-          `;
-        });
-        html += `</div>`;
       }
       
-      html += `</div></div>`;
+      html += `
+          </div>
+        </div>
+      `;
     }
-    
+
     els.reviewContent.innerHTML = html;
-    
-    // Attach edit listeners
+
     els.reviewContent.querySelectorAll('.edit-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const targetStep = parseInt(e.target.dataset.goto, 10);
-        goToStep(targetStep);
+      btn.addEventListener('click', () => {
+        const goto = parseInt(btn.dataset.goto, 10);
+        if (goto) goToStep(goto);
       });
     });
   };
 
   // Submit
   const submitForm = async () => {
-    if (!validateStep(6)) return;
-    
+    if (!validateStep(currentStep)) return;
+
     const payload = {
       contact: {
-        fullName: els.fullName?.value.trim() || '',
-        email: els.email?.value.trim() || '',
-        company: els.company?.value.trim() || '',
-        phone: els.phone?.value.trim() || ''
+        fullName: els.fullName?.value,
+        email: els.email?.value,
+        company: els.company?.value,
+        phone: els.phone?.value
       },
-      projectTypes: Array.from(state.projectTypes),
-      scope: {
-        budget: els.budget?.value || '',
-        timeline: els.timeline?.value || '',
-        teamSize: els.teamSize?.value || ''
+      overview: {
+        projectName: els.projectName?.value,
+        description: els.description?.value,
+        successMetrics: els.successMetrics?.value
       },
-      techStack: {
+      personas: {
+        userRoles: els.userRoles?.value,
+        userPainPoints: els.userPainPoints?.value,
+        targetPlatforms: Array.from(state.platforms)
+      },
+      functionalScope: {
+        featureModules: Array.from(state.featureModules),
+        coreFeatureDetails: els.coreFeatureDetails?.value
+      },
+      authAndSecurity: {
+        authTypes: Array.from(state.authTypes),
+        permissionLevels: els.permissionLevels?.value,
+        complianceNeeds: els.complianceNeeds?.value
+      },
+      integrations: {
+        integrationTypes: Array.from(state.integrations),
+        customIntegrations: els.customIntegrations?.value
+      },
+      techAndDelivery: {
+        budget: els.budget?.value,
+        timeline: els.timeline?.value,
         frontend: Array.from(state.techStack.frontend),
         backend: Array.from(state.techStack.backend),
-        database: Array.from(state.techStack.database),
         ai: Array.from(state.techStack.ai),
-        cloud: Array.from(state.techStack.cloud),
-        custom: Array.from(state.techStack.custom),
         letGuavaDecide: state.techStack.letGuavaDecide
-      },
-      vision: {
-        projectName: els.projectName?.value.trim() || '',
-        description: els.description?.value.trim() || '',
-        additionalNotes: els.additionalNotes?.value.trim() || ''
       },
       submittedAt: new Date().toISOString()
     };
@@ -520,10 +561,12 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify(payload)
       });
       
-      if (response.ok) {
+      const data = await response.json();
+
+      if (response.ok && data.success) {
         showSuccess();
       } else {
-        throw new Error('Submission failed');
+        throw new Error(data.error || 'Submission failed');
       }
     } catch (error) {
       console.error(error);

@@ -51,8 +51,9 @@
       
       <!-- Step 1: Contact Info -->
       <section id="step-1" class="step active">
-        <div class="step-badge">01</div>
+        <div class="step-badge">Step 01 / 08</div>
         <h2 class="step-heading">Let's build something amazing.</h2>
+        <p class="step-subheading">First, tell us who you are so we can send your generated PRD.</p>
         
         <div class="form-group">
           <label for="fullName">Full Name *</label>
@@ -60,12 +61,12 @@
         </div>
         
         <div class="form-group">
-          <label for="email">Email Address *</label>
-          <input type="email" id="email" class="form-control" required placeholder="jane@example.com" aria-label="Email Address">
+          <label for="email">Work Email *</label>
+          <input type="email" id="email" class="form-control" required placeholder="jane@company.com" aria-label="Email Address">
         </div>
         
         <div class="form-group">
-          <label for="company">Company (Optional)</label>
+          <label for="company">Company / Project Name (Optional)</label>
           <input type="text" id="company" class="form-control" placeholder="Acme Corp" aria-label="Company">
         </div>
         
@@ -75,122 +76,157 @@
         </div>
       </section>
 
-      <!-- Step 2: Vision & Core Concept -->
+      <!-- Step 2: Product Overview & Goal -->
       <section id="step-2" class="step">
-        <div class="step-badge">02</div>
-        <h2 class="step-heading">Describe your vision</h2>
-        <p class="step-subheading">Tell us in plain language what you want to achieve. No technical jargon required!</p>
+        <div class="step-badge">Step 02 / 08 — PRD: Overview</div>
+        <h2 class="step-heading">Product Vision & Core Purpose</h2>
+        <p class="step-subheading">Define the high-level elevator pitch and core goal of your product.</p>
         
         <div class="form-group">
-          <label for="projectName">Project Name (Optional)</label>
-          <input type="text" id="projectName" class="form-control" placeholder="e.g. My Next Startup / Internal Tool" aria-label="Project Name">
+          <label for="projectName">Product Name / Title</label>
+          <input type="text" id="projectName" class="form-control" placeholder="e.g. Acme Sales Assistant / HealthTrack Mobile" aria-label="Project Name">
         </div>
         
         <div class="form-group">
-          <label for="description">What problem are you solving & what should it do? *</label>
-          <textarea id="description" class="form-control" rows="6" placeholder="Describe the goal, key features, target users, or dream outcome..." aria-label="Description"></textarea>
+          <label for="description">Problem Statement & Executive Summary *</label>
+          <textarea id="description" class="form-control" rows="5" placeholder="What core problem does this solve? What is the main objective of this product?" aria-label="Description"></textarea>
         </div>
         
         <div class="form-group">
-          <label for="additionalNotes">Reference Apps or Inspiration (Optional)</label>
-          <textarea id="additionalNotes" class="form-control" rows="3" placeholder="Links to websites/apps you like, competitor references, or specific ideas..." aria-label="Additional Notes"></textarea>
+          <label for="successMetrics">Key Success Metrics / KPIs (Optional)</label>
+          <input type="text" id="successMetrics" class="form-control" placeholder="e.g. Reduce manual processing by 80%, Onboard 10k users, $50k MRR" aria-label="Success Metrics">
         </div>
       </section>
 
-      <!-- Step 3: Project Type -->
+      <!-- Step 3: Target Users & Personas -->
       <section id="step-3" class="step">
-        <div class="step-badge">03</div>
-        <h2 class="step-heading">What kind of app is this?</h2>
-        <p class="step-subheading">Select all that sound like what you have in mind.</p>
+        <div class="step-badge">Step 03 / 08 — PRD: User Personas</div>
+        <h2 class="step-heading">Target Users & User Needs</h2>
+        <p class="step-subheading">Who will be using this application and what are their roles?</p>
         
-        <div id="projectTypeTags" class="tag-grid">
-          <!-- Tags populated by JS -->
+        <div class="form-group">
+          <label for="userRoles">Primary User Roles / Personas *</label>
+          <textarea id="userRoles" class="form-control" rows="3" placeholder="e.g. Admin (manages team & billing), End Customer (books appointments), Sales Rep (manages leads)" aria-label="User Roles"></textarea>
         </div>
         
-        <div class="custom-input-row">
-          <input type="text" id="customProjectType" class="form-control tag-custom" placeholder="Other project type...">
-          <button type="button" id="addProjectTypeBtn" class="btn-add">+ Add</button>
+        <div class="form-group">
+          <label for="userPainPoints">User Pain Points & Needs</label>
+          <textarea id="userPainPoints" class="form-control" rows="3" placeholder="What frustrates your target users today? What are their key workflows?" aria-label="User Pain Points"></textarea>
         </div>
-        <div id="customProjectTypeList" class="custom-tags-list"></div>
+
+        <div class="form-group">
+          <label>Target Audience Platform</label>
+          <div id="platformTypeTags" class="tag-grid"></div>
+        </div>
       </section>
 
-      <!-- Step 4: Scope & Timeline -->
+      <!-- Step 4: Core Functionality & Modules -->
       <section id="step-4" class="step">
-        <div class="step-badge">04</div>
-        <h2 class="step-heading">Project scope & timeline</h2>
+        <div class="step-badge">Step 04 / 08 — PRD: Functional Requirements</div>
+        <h2 class="step-heading">Core Features & Functional Scope</h2>
+        <p class="step-subheading">Select and list the key capabilities required for Version 1.0.</p>
         
         <div class="form-group">
-          <label for="budget">Estimated Budget</label>
-          <select id="budget" class="form-control" aria-label="Estimated Budget">
-            <option value="" disabled selected>Select budget range...</option>
-            <option value="under-5k">Under $5K</option>
-            <option value="5k-15k">$5K - $15K</option>
-            <option value="15k-50k">$15K - $50K</option>
-            <option value="50k-100k">$50K - $100K</option>
-            <option value="100k+">$100K+</option>
-          </select>
+          <label>Key Modules Needed (Select all that apply)</label>
+          <div id="featureModulesTags" class="tag-grid"></div>
         </div>
-        
+
         <div class="form-group">
-          <label for="timeline">Desired Timeline</label>
-          <select id="timeline" class="form-control" aria-label="Desired Timeline">
-            <option value="" disabled selected>Select timeline...</option>
-            <option value="asap">ASAP</option>
-            <option value="1-2-weeks">1-2 Weeks</option>
-            <option value="1-month">1 Month</option>
-            <option value="2-3-months">2-3 Months</option>
-            <option value="3-months-plus">3+ Months</option>
-          </select>
-        </div>
-        
-        <div class="form-group">
-          <label for="teamSize">Team Size Needed</label>
-          <select id="teamSize" class="form-control" aria-label="Team Size Needed">
-            <option value="" disabled selected>Select team size...</option>
-            <option value="solo">Solo Developer</option>
-            <option value="small">Small Team (2-3)</option>
-            <option value="full">Full Team (4+)</option>
-            <option value="not-sure">Not Sure</option>
-          </select>
+          <label for="coreFeatureDetails">Detailed Must-Have Features (MVP Scope) *</label>
+          <textarea id="coreFeatureDetails" class="form-control" rows="5" placeholder="Describe the top 3-5 core features in detail (e.g. 1. AI Lead Scraper, 2. Interactive Kanban Dashboard, 3. Automated Email Follow-ups)..." aria-label="Core Feature Details"></textarea>
         </div>
       </section>
 
-      <!-- Step 5: Technical Preferences (Optional) -->
+      <!-- Step 5: Authentication & Security -->
       <section id="step-5" class="step">
-        <div class="step-badge">05</div>
-        <h2 class="step-heading">Technical preferences (Optional)</h2>
-        <p class="step-subheading">If you have specific preferences, select them below. Otherwise, click "Let Guava Decide"!</p>
+        <div class="step-badge">Step 05 / 08 — PRD: Auth & Access</div>
+        <h2 class="step-heading">User Authentication & Security</h2>
+        <p class="step-subheading">How should users log in, and how are permissions handled?</p>
         
-        <button type="button" id="letGuavaDecide" class="btn btn-secondary">🪄 Let Guava Decide Best Tech Stack</button>
+        <div class="form-group">
+          <label>Authentication Requirements</label>
+          <div id="authTypeTags" class="tag-grid"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="permissionLevels">Access Control & Role Permissions</label>
+          <input type="text" id="permissionLevels" class="form-control" placeholder="e.g. Multi-tenant workspace isolation, Role-based access (Admin, Editor, Viewer)" aria-label="Permission Levels">
+        </div>
+
+        <div class="form-group">
+          <label for="complianceNeeds">Security & Compliance (Optional)</label>
+          <input type="text" id="complianceNeeds" class="form-control" placeholder="e.g. GDPR compliance, HIPAA, SOC2, Encryption at rest" aria-label="Compliance Needs">
+        </div>
+      </section>
+
+      <!-- Step 6: Integrations, Data & AI -->
+      <section id="step-6" class="step">
+        <div class="step-badge">Step 06 / 08 — PRD: Integrations & Data</div>
+        <h2 class="step-heading">Third-Party Integrations & Data Flow</h2>
+        <p class="step-subheading">What external tools, APIs, databases, or AI capabilities are needed?</p>
         
+        <div class="form-group">
+          <label>Integrations Required</label>
+          <div id="integrationTags" class="tag-grid"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="customIntegrations">Specific APIs or Data Sources</label>
+          <textarea id="customIntegrations" class="form-control" rows="3" placeholder="e.g. Stripe for subscriptions, OpenAI GPT-4o for document analysis, HubSpot API for CRM sync..." aria-label="Custom Integrations"></textarea>
+        </div>
+      </section>
+
+      <!-- Step 7: Technical Stack, Scope & Budget -->
+      <section id="step-7" class="step">
+        <div class="step-badge">Step 07 / 08 — PRD: Tech & Delivery</div>
+        <h2 class="step-heading">Technical Preferences & Delivery Scope</h2>
+        <p class="step-subheading">Specify your tech stack preferences or let Guava recommend the optimal architecture.</p>
+        
+        <button type="button" id="letGuavaDecide" class="btn btn-secondary mb-4">🪄 Let Guava Recommend Optimal Architecture</button>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="budget">Target Budget</label>
+            <select id="budget" class="form-control" aria-label="Estimated Budget">
+              <option value="" disabled selected>Select budget range...</option>
+              <option value="under-5k">Under $5K</option>
+              <option value="5k-15k">$5K - $15K</option>
+              <option value="15k-50k">$15K - $50K</option>
+              <option value="50k-100k">$50K - $100K</option>
+              <option value="100k+">$100K+</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="timeline">Desired Delivery Timeline</label>
+            <select id="timeline" class="form-control" aria-label="Desired Timeline">
+              <option value="" disabled selected>Select timeline...</option>
+              <option value="asap">ASAP</option>
+              <option value="1-2-weeks">1-2 Weeks</option>
+              <option value="1-month">1 Month</option>
+              <option value="2-3-months">2-3 Months</option>
+              <option value="3-months-plus">3+ Months</option>
+            </select>
+          </div>
+        </div>
+
         <div class="tech-categories">
-          <h3 class="category-title">Frontend</h3>
+          <h3 class="category-title">Frontend & Mobile</h3>
           <div id="frontendTags" class="tag-grid"></div>
           
-          <h3 class="category-title">Backend</h3>
+          <h3 class="category-title">Backend & Database</h3>
           <div id="backendTags" class="tag-grid"></div>
-          
-          <h3 class="category-title">Database</h3>
-          <div id="databaseTags" class="tag-grid"></div>
 
-          <h3 class="category-title">AI / ML</h3>
+          <h3 class="category-title">AI Models & Automation</h3>
           <div id="aiTags" class="tag-grid"></div>
-
-          <h3 class="category-title">Cloud & Automation</h3>
-          <div id="cloudTags" class="tag-grid"></div>
         </div>
-        
-        <div class="custom-input-row">
-          <input type="text" id="customTech" class="form-control tag-custom" placeholder="Other technology...">
-          <button type="button" id="addTechBtn" class="btn-add">+ Add</button>
-        </div>
-        <div id="customTechList" class="custom-tags-list"></div>
       </section>
 
-      <!-- Step 6: Review -->
-      <section id="step-6" class="step">
-        <div class="step-badge">06</div>
-        <h2 class="step-heading">Review your brief</h2>
+      <!-- Step 8: Review & PRD Generation -->
+      <section id="step-8" class="step">
+        <div class="step-badge">Step 08 / 08 — Final Review</div>
+        <h2 class="step-heading">Review & Generate Product Requirement Document</h2>
+        <p class="step-subheading">Verify your requirements below. Once submitted, Guava will compile and generate your complete PRD.</p>
         
         <div id="reviewContent">
           <!-- Populated by JS -->
