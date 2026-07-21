@@ -57,15 +57,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Step 8: Review
     reviewContent: document.getElementById('reviewContent'),
     
-    // Nav & Mode
+    // Nav & Chat Widget
     backBtn: document.getElementById('backBtn'),
     nextBtn: document.getElementById('nextBtn'),
     navButtons: document.getElementById('navButtons'),
     themeToggle: document.getElementById('themeToggle'),
-    btnModeStep: document.getElementById('btnModeStep'),
-    btnModeChat: document.getElementById('btnModeChat'),
-    stepFormCard: document.getElementById('stepFormCard'),
-    chatCard: document.getElementById('chatCard'),
+    chatFloatingBtn: document.getElementById('chatFloatingBtn'),
+    chatModal: document.getElementById('chatModal'),
+    chatModalClose: document.getElementById('chatModalClose'),
     chatMessages: document.getElementById('chatMessages'),
     chatInput: document.getElementById('chatInput'),
     chatSendBtn: document.getElementById('chatSendBtn'),
@@ -97,26 +96,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Mode Switcher (Step Form vs Guava AI Chat)
-  if (els.btnModeStep && els.btnModeChat) {
-    els.btnModeStep.addEventListener('click', () => {
-      els.btnModeStep.classList.add('active');
-      els.btnModeChat.classList.remove('active');
-      if (els.stepFormCard) els.stepFormCard.style.display = 'block';
-      if (els.navButtons) els.navButtons.style.display = 'flex';
-      if (els.chatCard) els.chatCard.style.display = 'none';
-    });
-
-    els.btnModeChat.addEventListener('click', () => {
-      els.btnModeChat.classList.add('active');
-      els.btnModeStep.classList.remove('active');
-      if (els.stepFormCard) els.stepFormCard.style.display = 'none';
-      if (els.navButtons) els.navButtons.style.display = 'none';
-      if (els.chatCard) els.chatCard.style.display = 'flex';
-      
-      // Init chat if empty
+  // Floating AI Chat Modal Event Listeners
+  if (els.chatFloatingBtn && els.chatModal && els.chatModalClose) {
+    els.chatFloatingBtn.addEventListener('click', () => {
+      els.chatModal.classList.add('open');
       if (chatHistory.length === 0) {
         initChat();
+      }
+    });
+
+    els.chatModalClose.addEventListener('click', () => {
+      els.chatModal.classList.remove('open');
+    });
+
+    // Close modal when clicking outside background overlay
+    els.chatModal.addEventListener('click', (e) => {
+      if (e.target === els.chatModal) {
+        els.chatModal.classList.remove('open');
       }
     });
   }

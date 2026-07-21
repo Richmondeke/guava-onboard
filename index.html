@@ -44,41 +44,11 @@
         <span class="brand-title">Product Requirement Questionnaire</span>
       </div>
       
-      <div class="header-controls">
-        <div class="mode-switcher" id="modeSwitcher">
-          <button type="button" class="mode-btn active" id="btnModeStep">📋 Step Form</button>
-          <button type="button" class="mode-btn" id="btnModeChat">🤖 Guava AI Chat</button>
-        </div>
-        <button id="themeToggle" class="theme-toggle-btn" type="button" aria-label="Toggle theme">
-          <span class="theme-icon-dark">🌙</span>
-          <span class="theme-icon-light">☀️</span>
-        </button>
-      </div>
+      <button id="themeToggle" class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+        <span class="theme-icon-dark">🌙</span>
+        <span class="theme-icon-light">☀️</span>
+      </button>
     </header>
-
-    <!-- AI Chat Form Container (Hidden by default) -->
-    <main id="chatCard" class="form-card chat-card" style="display: none;">
-      <div class="chat-header">
-        <div class="chat-avatar">🤖</div>
-        <div>
-          <h2 class="chat-title">Guava AI Product Architect</h2>
-          <p class="chat-subtitle">Chat in plain language. Guava AI will interview you and extract your full PRD automatically.</p>
-        </div>
-      </div>
-
-      <div id="chatMessages" class="chat-messages">
-        <!-- Dynamic chat bubbles -->
-      </div>
-
-      <div class="chat-input-wrapper">
-        <textarea id="chatInput" class="form-control chat-input" rows="2" placeholder="Type your message... (e.g. 'I want to build a SaaS for real estate agents')"></textarea>
-        <button id="chatSendBtn" type="button" class="btn btn-primary chat-send-btn">Send ➔</button>
-      </div>
-
-      <div class="chat-actions">
-        <button id="btnSaveChatPRD" type="button" class="btn btn-secondary btn-sm" style="display: none;">💾 Compile & Save PRD to Backend</button>
-      </div>
-    </main>
 
     <main id="stepFormCard" class="form-card">
       
@@ -346,6 +316,42 @@
       </div>
 
     </main>
+  </div>
+
+  <!-- Floating AI Chat Trigger Button -->
+  <button id="chatFloatingBtn" class="chat-floating-btn" type="button" aria-label="Open Guava AI Chat">
+    <span class="chat-btn-icon">💬</span>
+    <span class="chat-btn-text">Chat with Guava AI</span>
+    <span class="chat-btn-badge">AI</span>
+  </button>
+
+  <!-- Floating AI Chat Modal Form -->
+  <div id="chatModal" class="chat-modal">
+    <div class="chat-modal-content">
+      <div class="chat-header">
+        <div class="chat-header-info">
+          <div class="chat-avatar">🤖</div>
+          <div>
+            <h2 class="chat-title">Guava AI Product Architect</h2>
+            <p class="chat-subtitle">Tell us about your app idea in plain language</p>
+          </div>
+        </div>
+        <button id="chatModalClose" class="chat-modal-close" type="button" aria-label="Close Chat">×</button>
+      </div>
+
+      <div id="chatMessages" class="chat-messages">
+        <!-- Dynamic chat bubbles -->
+      </div>
+
+      <div class="chat-input-wrapper">
+        <textarea id="chatInput" class="form-control chat-input" rows="2" placeholder="Type your message... (e.g. 'I want to build a SaaS for real estate agents')"></textarea>
+        <button id="chatSendBtn" type="button" class="btn btn-primary chat-send-btn">Send ➔</button>
+      </div>
+
+      <div class="chat-actions">
+        <button id="btnSaveChatPRD" type="button" class="btn btn-secondary btn-sm" style="display: none;">💾 Compile & Save PRD to Backend</button>
+      </div>
+    </div>
   </div>
 
   <script src="app.js"></script>
