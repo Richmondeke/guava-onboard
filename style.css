@@ -424,9 +424,9 @@ textarea.form-control {
   flex: 1;
 }
 .btn-add {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--tag-bg);
   border: 1px solid var(--input-border);
-  color: white;
+  color: var(--text-main);
   border-radius: 12px;
   padding: 0 20px;
   cursor: pointer;
@@ -434,7 +434,8 @@ textarea.form-control {
   transition: all var(--transition-speed);
 }
 .btn-add:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--tag-hover);
+  border-color: var(--primary-color);
 }
 
 .custom-tags-list {
@@ -444,8 +445,9 @@ textarea.form-control {
   margin-top: 12px;
 }
 .custom-pill {
-  background: rgba(81, 47, 235, 0.2);
+  background: var(--tag-selected-bg);
   border: 1px solid var(--primary-color);
+  color: var(--text-main);
   padding: 6px 12px;
   border-radius: 20px;
   font-size: 0.85rem;
@@ -484,7 +486,7 @@ textarea.form-control {
 
 .btn-primary {
   background: var(--primary-gradient);
-  color: white;
+  color: #FFFFFF;
   box-shadow: 0 4px 15px rgba(81, 47, 235, 0.3);
 }
 
@@ -494,13 +496,20 @@ textarea.form-control {
 }
 
 .btn-secondary {
-  background: transparent;
-  color: white;
+  background: var(--tag-bg);
+  color: var(--text-main);
   border: 1px solid var(--input-border);
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--tag-hover);
+  border-color: var(--primary-color);
+}
+
+.btn-secondary.active {
+  background: var(--tag-selected-bg);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
 }
 
 .btn:disabled {
@@ -558,7 +567,9 @@ textarea.form-control {
 }
 .review-pill {
   display: inline-block;
-  background: rgba(255,255,255,0.1);
+  background: var(--tag-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text-main);
   padding: 4px 10px;
   border-radius: 12px;
   font-size: 0.85rem;

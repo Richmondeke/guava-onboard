@@ -28,7 +28,17 @@
   <div class="app-container">
     <header class="app-header">
       <div class="brand-wrapper">
-        <a href="https://guava.earth" class="brand-logo">guava.</a>
+        <a href="https://guava.earth" class="brand-logo-link" aria-label="Guava Home">
+          <svg class="guava-brand-svg" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="28" font-family="'Outfit', sans-serif" font-weight="800" font-size="32" fill="url(#guava-grad)" letter-spacing="-0.5">guava<tspan fill="#512FEB">.</tspan></text>
+            <defs>
+              <linearGradient id="guava-grad" x1="0" y1="0" x2="120" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#512FEB"/>
+                <stop offset="1" stop-color="#8B5CF6"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </a>
         <span class="brand-title">Product Requirement Questionnaire</span>
       </div>
       <button id="themeToggle" class="theme-toggle-btn" type="button" aria-label="Toggle theme">
