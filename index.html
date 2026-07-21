@@ -120,59 +120,84 @@
         </div>
       </section>
 
-      <!-- Step 4: Core Functionality & Modules -->
+      <!-- Step 4: Core Functionality & User Stories -->
       <section id="step-4" class="step">
-        <div class="step-badge">Step 04 / 08 — PRD: Functional Requirements</div>
-        <h2 class="step-heading">Core Features & Functional Scope</h2>
-        <p class="step-subheading">Select and list the key capabilities required for Version 1.0.</p>
+        <div class="step-badge">Step 04 / 08 — PRD: Functional Scope</div>
+        <h2 class="step-heading">Features, Modules & User Stories</h2>
+        <p class="step-subheading">Define the functional capabilities and key user journeys in detail.</p>
         
         <div class="form-group">
-          <label>Key Modules Needed (Select all that apply)</label>
+          <label>Key Feature Modules (Select all that apply)</label>
           <div id="featureModulesTags" class="tag-grid"></div>
         </div>
 
         <div class="form-group">
-          <label for="coreFeatureDetails">Detailed Must-Have Features (MVP Scope) *</label>
-          <textarea id="coreFeatureDetails" class="form-control" rows="5" placeholder="Describe the top 3-5 core features in detail (e.g. 1. AI Lead Scraper, 2. Interactive Kanban Dashboard, 3. Automated Email Follow-ups)..." aria-label="Core Feature Details"></textarea>
+          <label for="coreFeatureDetails">Must-Have Core Features (MVP Scope) *</label>
+          <textarea id="coreFeatureDetails" class="form-control" rows="4" placeholder="Detail the top core features (e.g., 1. AI Content Generator with template library, 2. Interactive Kanban Pipeline, 3. Automated Email Sync)..." aria-label="Core Feature Details"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="userStories">Key User Journeys & Stories (As a user, I want to...)</label>
+          <textarea id="userStories" class="form-control" rows="4" placeholder="e.g. As an Admin, I want to invite team members and assign roles. As a Client, I want to upload PDFs and receive automated summaries..." aria-label="User Stories"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="outOfScope">Out of Scope for V1.0 (Non-Goals)</label>
+          <input type="text" id="outOfScope" class="form-control" placeholder="e.g. Mobile native push notifications (V2), Crypto payments, Offline mode" aria-label="Out of Scope">
         </div>
       </section>
 
-      <!-- Step 5: Authentication & Security -->
+      <!-- Step 5: Auth, Security & Data Model -->
       <section id="step-5" class="step">
-        <div class="step-badge">Step 05 / 08 — PRD: Auth & Access</div>
-        <h2 class="step-heading">User Authentication & Security</h2>
-        <p class="step-subheading">How should users log in, and how are permissions handled?</p>
+        <div class="step-badge">Step 05 / 08 — PRD: Architecture & Auth</div>
+        <h2 class="step-heading">Authentication, Access Control & Data Model</h2>
+        <p class="step-subheading">Define security requirements, user roles, data entities, and compliance.</p>
         
         <div class="form-group">
-          <label>Authentication Requirements</label>
+          <label>Authentication & SSO Methods</label>
           <div id="authTypeTags" class="tag-grid"></div>
         </div>
 
         <div class="form-group">
-          <label for="permissionLevels">Access Control & Role Permissions</label>
-          <input type="text" id="permissionLevels" class="form-control" placeholder="e.g. Multi-tenant workspace isolation, Role-based access (Admin, Editor, Viewer)" aria-label="Permission Levels">
+          <label for="permissionLevels">Access Control Matrix & Role Permissions</label>
+          <textarea id="permissionLevels" class="form-control" rows="3" placeholder="e.g. Owner (full access), Admin (manage team/billing), Member (create content), Guest (read-only)..." aria-label="Permission Levels"></textarea>
         </div>
 
         <div class="form-group">
-          <label for="complianceNeeds">Security & Compliance (Optional)</label>
-          <input type="text" id="complianceNeeds" class="form-control" placeholder="e.g. GDPR compliance, HIPAA, SOC2, Encryption at rest" aria-label="Compliance Needs">
+          <label for="dataEntities">Core Data Entities & Relationships</label>
+          <input type="text" id="dataEntities" class="form-control" placeholder="e.g. Users, Workspaces, Projects, Documents, Invoices, Activity Logs" aria-label="Data Entities">
+        </div>
+
+        <div class="form-group">
+          <label for="complianceNeeds">Security, Privacy & Compliance Requirements</label>
+          <input type="text" id="complianceNeeds" class="form-control" placeholder="e.g. GDPR compliance, HIPAA data privacy, Encryption at rest, SOC2 controls" aria-label="Compliance Needs">
         </div>
       </section>
 
-      <!-- Step 6: Integrations, Data & AI -->
+      <!-- Step 6: Integrations, NFRs & UX Guidelines -->
       <section id="step-6" class="step">
-        <div class="step-badge">Step 06 / 08 — PRD: Integrations & Data</div>
-        <h2 class="step-heading">Third-Party Integrations & Data Flow</h2>
-        <p class="step-subheading">What external tools, APIs, databases, or AI capabilities are needed?</p>
+        <div class="step-badge">Step 06 / 08 — PRD: Integrations & UX</div>
+        <h2 class="step-heading">Integrations, UX Guidelines & NFRs</h2>
+        <p class="step-subheading">Specify external APIs, design expectations, performance SLAs, and edge cases.</p>
         
         <div class="form-group">
-          <label>Integrations Required</label>
+          <label>Third-Party Integrations Required</label>
           <div id="integrationTags" class="tag-grid"></div>
         </div>
 
         <div class="form-group">
-          <label for="customIntegrations">Specific APIs or Data Sources</label>
-          <textarea id="customIntegrations" class="form-control" rows="3" placeholder="e.g. Stripe for subscriptions, OpenAI GPT-4o for document analysis, HubSpot API for CRM sync..." aria-label="Custom Integrations"></textarea>
+          <label for="customIntegrations">Specific API Details & Webhooks</label>
+          <textarea id="customIntegrations" class="form-control" rows="3" placeholder="e.g. Stripe Billing Webhooks, OpenAI GPT-4o API, HubSpot CRM Sync, SendGrid Transactional Emails..." aria-label="Custom Integrations"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="designPreferences">Design & UX Guidelines / Branding</label>
+          <input type="text" id="designPreferences" class="form-control" placeholder="e.g. Sleek dark mode preferred, match brand colors (#512FEB), clean minimalist SaaS UI" aria-label="Design Preferences">
+        </div>
+
+        <div class="form-group">
+          <label for="nonFunctionalReqs">Performance, SLA & Edge Cases (NFRs)</label>
+          <textarea id="nonFunctionalReqs" class="form-control" rows="3" placeholder="e.g. Page load < 1.5s, 99.9% uptime, graceful degradation if AI API is down, handle 10k concurrent users" aria-label="Non-Functional Requirements"></textarea>
         </div>
       </section>
 

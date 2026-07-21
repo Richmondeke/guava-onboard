@@ -22,18 +22,23 @@ document.addEventListener('DOMContentLoaded', () => {
     userPainPoints: document.getElementById('userPainPoints'),
     platformTypeTags: document.getElementById('platformTypeTags'),
 
-    // Step 4: Functions & Features
+    // Step 4: Functions & User Stories
     featureModulesTags: document.getElementById('featureModulesTags'),
     coreFeatureDetails: document.getElementById('coreFeatureDetails'),
+    userStories: document.getElementById('userStories'),
+    outOfScope: document.getElementById('outOfScope'),
 
-    // Step 5: Auth & Security
+    // Step 5: Auth & Data Model
     authTypeTags: document.getElementById('authTypeTags'),
     permissionLevels: document.getElementById('permissionLevels'),
+    dataEntities: document.getElementById('dataEntities'),
     complianceNeeds: document.getElementById('complianceNeeds'),
 
-    // Step 6: Integrations
+    // Step 6: Integrations, NFRs & UX
     integrationTags: document.getElementById('integrationTags'),
     customIntegrations: document.getElementById('customIntegrations'),
+    designPreferences: document.getElementById('designPreferences'),
+    nonFunctionalReqs: document.getElementById('nonFunctionalReqs'),
 
     // Step 7: Tech & Scope
     budget: document.getElementById('budget'),
@@ -410,20 +415,25 @@ document.addEventListener('DOMContentLoaded', () => {
         { label: 'Pain Points', value: els.userPainPoints?.value || 'N/A' }
       ],
       'Target Platforms': Array.from(state.platforms),
-      '4. Functional Scope': [
-        { label: 'Core Features', value: els.coreFeatureDetails?.value }
+      '4. Functional Scope & Stories': [
+        { label: 'Must-Have Features', value: els.coreFeatureDetails?.value },
+        { label: 'User Journeys & Stories', value: els.userStories?.value || 'N/A' },
+        { label: 'Out of Scope (V1 Non-Goals)', value: els.outOfScope?.value || 'N/A' }
       ],
       'Feature Modules': Array.from(state.featureModules),
-      '5. Auth & Access': [
-        { label: 'Permissions', value: els.permissionLevels?.value || 'N/A' },
+      '5. Auth, Data & Security': [
+        { label: 'Access Control', value: els.permissionLevels?.value || 'N/A' },
+        { label: 'Core Data Entities', value: els.dataEntities?.value || 'N/A' },
         { label: 'Compliance', value: els.complianceNeeds?.value || 'N/A' }
       ],
       'Auth Methods': Array.from(state.authTypes),
-      '6. Integrations & Data': [
-        { label: 'Custom APIs', value: els.customIntegrations?.value || 'N/A' }
+      '6. Integrations, NFRs & UX': [
+        { label: 'Custom APIs & Webhooks', value: els.customIntegrations?.value || 'N/A' },
+        { label: 'Design & UX Expectations', value: els.designPreferences?.value || 'N/A' },
+        { label: 'Performance & Edge Cases (NFRs)', value: els.nonFunctionalReqs?.value || 'N/A' }
       ],
       Integrations: Array.from(state.integrations),
-      '7. Tech & Scope': [
+      '7. Tech Architecture & Scope': [
         { label: 'Budget', value: els.budget?.options?.[els.budget.selectedIndex]?.text || els.budget?.value || 'N/A' },
         { label: 'Timeline', value: els.timeline?.options?.[els.timeline.selectedIndex]?.text || els.timeline?.value || 'N/A' }
       ],
@@ -441,13 +451,13 @@ document.addEventListener('DOMContentLoaded', () => {
       '2. Product Overview': 2,
       '3. Personas & Platforms': 3,
       'Target Platforms': 3,
-      '4. Functional Scope': 4,
+      '4. Functional Scope & Stories': 4,
       'Feature Modules': 4,
-      '5. Auth & Access': 5,
+      '5. Auth, Data & Security': 5,
       'Auth Methods': 5,
-      '6. Integrations & Data': 6,
+      '6. Integrations, NFRs & UX': 6,
       Integrations: 6,
-      '7. Tech & Scope': 7,
+      '7. Tech Architecture & Scope': 7,
       'Tech Stack': 7
     };
 
@@ -523,16 +533,21 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       functionalScope: {
         featureModules: Array.from(state.featureModules),
-        coreFeatureDetails: els.coreFeatureDetails?.value
+        coreFeatureDetails: els.coreFeatureDetails?.value,
+        userStories: els.userStories?.value,
+        outOfScope: els.outOfScope?.value
       },
       authAndSecurity: {
         authTypes: Array.from(state.authTypes),
         permissionLevels: els.permissionLevels?.value,
+        dataEntities: els.dataEntities?.value,
         complianceNeeds: els.complianceNeeds?.value
       },
-      integrations: {
+      integrationsAndNFRs: {
         integrationTypes: Array.from(state.integrations),
-        customIntegrations: els.customIntegrations?.value
+        customIntegrations: els.customIntegrations?.value,
+        designPreferences: els.designPreferences?.value,
+        nonFunctionalReqs: els.nonFunctionalReqs?.value
       },
       techAndDelivery: {
         budget: els.budget?.value,
