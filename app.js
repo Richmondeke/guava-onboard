@@ -972,18 +972,9 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </div>
 
-      <div class="prd-card-section">
-        <h4 class="prd-card-title">8. Non-Functional Requirements (NFRs)</h4>
-        <div class="prd-kv-grid">
-          <div class="prd-kv-item"><span class="prd-kv-label">Page Load SLA</span><span class="prd-kv-val">< 1.5 seconds</span></div>
-          <div class="prd-kv-item"><span class="prd-kv-label">Uptime Goal</span><span class="prd-kv-val">99.9% Uptime</span></div>
-          <div class="prd-kv-item full-width"><span class="prd-kv-label">Mobile & Desktop Support</span><span class="prd-kv-val">Full cross-platform responsive web application.</span></div>
-        </div>
-      </div>
-
       ${transcriptText ? `
       <div class="prd-card-section">
-        <h4 class="prd-card-title">9. Guava AI Interactive Conversation Log</h4>
+        <h4 class="prd-card-title">8. Guava AI Interactive Conversation Log</h4>
         <div class="prd-kv-grid">
           <div class="prd-kv-item full-width"><span class="prd-kv-label">Extracted Interview Log</span><span class="prd-kv-val">${transcriptText}</span></div>
         </div>
