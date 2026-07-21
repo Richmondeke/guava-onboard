@@ -894,37 +894,101 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ─── PRD Document Preview Engine ───────────────────────────────
+  // ─── Professional Comprehensive PRD Document Generator Engine ──
   const renderPRDPreview = () => {
     if (!els.prdPreviewBody) return;
 
     const transcriptText = chatHistory.map(m => `${m.role === 'user' ? 'Client' : 'Guava AI'}: ${m.text}`).join('\n\n');
 
+    // Extract dynamic answers or fallback to smart defaults
+    const clientName = els.fullName?.value || 'Lydra (Product Owner)';
+    const clientEmail = els.email?.value || 'lydra@loanapp.io';
+    const companyName = els.company?.value || 'Lydra Fintech';
+    const projectName = els.projectName?.value || 'LoanOrigination Platform';
+    const problemDesc = els.description?.value || 'Digital loan origination system enabling automated credit scoring, identity verification, and instant loan approval for small businesses.';
+    const valuePropStr = els.valueProp?.value || 'For small business owners needing fast access to capital, LoanOrigination provides instant 5-minute credit decisions using automated open-banking scoring, unlike traditional manual bank underwriting.';
+    const userRolesStr = els.userRoles?.value || '1. Loan Applicant (Small Business Owner)\n2. Underwriter / Risk Officer (Reviews flagged applications)\n3. Super Admin (Manages loan terms, interest rates & team access)';
+    const painPointsStr = els.userPainPoints?.value || 'Manual loan processing takes 2-3 weeks; applicants abandon paper forms; manual credit scoring leads to high risk default rates.';
+    const coreFeaturesStr = els.coreFeatureDetails?.value || '1. Automated Open Banking Credit Scoring Engine\n2. Real-Time Document OCR Verification & KYC\n3. E-Signature Contract Execution\n4. Automated Disbursement Gateway Sync\n5. Admin Underwriter Workbench & Audit Log';
+    const userStoriesStr = els.userStories?.value || '• As an Applicant, I want to connect my bank account via Plaid so my credit score is calculated instantly.\n• As an Underwriter, I want to view flagged high-risk loans with automated risk scores so I can approve them with 1 click.\n• As an Admin, I want to configure interest rate rules so loan products adjust dynamically.';
+    const authDetails = els.permissionLevels?.value || 'Role-Based Access Control (RBAC): Admin (Full Access), Underwriter (Review & Approve), Borrower (View Status & Sign). Email/Password + Google SSO + 2FA.';
+    const integrationDetails = els.customIntegrations?.value || 'Plaid API (Bank Sync), Veriff / Smile ID (KYC), Stripe / ACH (Loan Disbursement & Repayments), SendGrid (Notification Emails).';
+    const designPrefDetails = els.designPreferences?.value || 'Modern sleek dark UI inspired by Linear and Notion, fast responsive mobile layout with purple brand accents (#512FEB).';
+
     els.prdPreviewBody.innerHTML = `
       <div class="prd-card-section">
-        <h4 class="prd-card-title">1. Executive & Contact Information</h4>
+        <h4 class="prd-card-title">1. Executive Overview & Contact Details</h4>
         <div class="prd-kv-grid">
-          <div class="prd-kv-item"><span class="prd-kv-label">Client Name</span><span class="prd-kv-val">${els.fullName?.value || 'Lydra (Product Owner)'}</span></div>
-          <div class="prd-kv-item"><span class="prd-kv-label">Contact Email</span><span class="prd-kv-val">${els.email?.value || 'lydra@loanapp.io'}</span></div>
-          <div class="prd-kv-item"><span class="prd-kv-label">Company / Organization</span><span class="prd-kv-val">${els.company?.value || 'Lydra Fintech / LoanOrigination'}</span></div>
-          <div class="prd-kv-item"><span class="prd-kv-label">Submission Date</span><span class="prd-kv-val">${new Date().toLocaleDateString()}</span></div>
+          <div class="prd-kv-item"><span class="prd-kv-label">Product Name</span><span class="prd-kv-val">${projectName}</span></div>
+          <div class="prd-kv-item"><span class="prd-kv-label">Product Owner</span><span class="prd-kv-val">${clientName}</span></div>
+          <div class="prd-kv-item"><span class="prd-kv-label">Work Email</span><span class="prd-kv-val">${clientEmail}</span></div>
+          <div class="prd-kv-item"><span class="prd-kv-label">Company / Organization</span><span class="prd-kv-val">${companyName}</span></div>
         </div>
       </div>
 
       <div class="prd-card-section">
-        <h4 class="prd-card-title">2. Product Overview & Purpose</h4>
+        <h4 class="prd-card-title">2. Business Goals & Value Proposition</h4>
         <div class="prd-kv-grid">
-          <div class="prd-kv-item full-width"><span class="prd-kv-label">Product Name & Vision</span><span class="prd-kv-val">${els.projectName?.value || 'LoanOrigination Mobile & Web App'}</span></div>
-          <div class="prd-kv-item full-width"><span class="prd-kv-label">Problem Statement & Elevator Pitch</span><span class="prd-kv-val">${els.description?.value || 'Automated digital loan origination platform for credit scoring, document verification, and instant loan approval.'}</span></div>
+          <div class="prd-kv-item full-width"><span class="prd-kv-label">Problem Statement</span><span class="prd-kv-val">${problemDesc}</span></div>
+          <div class="prd-kv-item full-width"><span class="prd-kv-label">Value Proposition</span><span class="prd-kv-val">${valuePropStr}</span></div>
         </div>
       </div>
 
       <div class="prd-card-section">
-        <h4 class="prd-card-title">3. Interactive Chatbot Conversation Transcript</h4>
+        <h4 class="prd-card-title">3. Target Audience & User Personas</h4>
         <div class="prd-kv-grid">
-          <div class="prd-kv-item full-width"><span class="prd-kv-label">Extracted Building Blocks</span><span class="prd-kv-val">${transcriptText || 'Step form brief data compiled.'}</span></div>
+          <div class="prd-kv-item full-width"><span class="prd-kv-label">Primary User Roles & Access Rights</span><span class="prd-kv-val">${userRolesStr}</span></div>
+          <div class="prd-kv-item full-width"><span class="prd-kv-label">Current Workarounds & Pain Points</span><span class="prd-kv-val">${painPointsStr}</span></div>
         </div>
       </div>
+
+      <div class="prd-card-section">
+        <h4 class="prd-card-title">4. Functional Requirements (MVP V1.0 Scope)</h4>
+        <div class="prd-kv-grid">
+          <div class="prd-kv-item full-width"><span class="prd-kv-label">Must-Have Core Capabilities</span><span class="prd-kv-val">${coreFeaturesStr}</span></div>
+          <div class="prd-kv-item full-width"><span class="prd-kv-label">User Stories & Key Flow</span><span class="prd-kv-val">${userStoriesStr}</span></div>
+        </div>
+      </div>
+
+      <div class="prd-card-section">
+        <h4 class="prd-card-title">5. Authentication, Access Control & Security</h4>
+        <div class="prd-kv-grid">
+          <div class="prd-kv-item full-width"><span class="prd-kv-label">User Access & Permissions</span><span class="prd-kv-val">${authDetails}</span></div>
+          <div class="prd-kv-item full-width"><span class="prd-kv-label">Data Privacy & Compliance</span><span class="prd-kv-val">Bank-grade 256-bit AES encryption at rest, TLS 1.3 in transit, GDPR & PCI-DSS compliance controls.</span></div>
+        </div>
+      </div>
+
+      <div class="prd-card-section">
+        <h4 class="prd-card-title">6. Integrations & External Services</h4>
+        <div class="prd-kv-grid">
+          <div class="prd-kv-item full-width"><span class="prd-kv-label">Third-Party APIs & Services</span><span class="prd-kv-val">${integrationDetails}</span></div>
+        </div>
+      </div>
+
+      <div class="prd-card-section">
+        <h4 class="prd-card-title">7. Design & UX System Guidelines</h4>
+        <div class="prd-kv-grid">
+          <div class="prd-kv-item full-width"><span class="prd-kv-label">Visual Aesthetics & Theme</span><span class="prd-kv-val">${designPrefDetails}</span></div>
+        </div>
+      </div>
+
+      <div class="prd-card-section">
+        <h4 class="prd-card-title">8. Non-Functional Requirements (NFRs)</h4>
+        <div class="prd-kv-grid">
+          <div class="prd-kv-item"><span class="prd-kv-label">Page Load SLA</span><span class="prd-kv-val">< 1.5 seconds</span></div>
+          <div class="prd-kv-item"><span class="prd-kv-label">Uptime Goal</span><span class="prd-kv-val">99.9% Uptime</span></div>
+          <div class="prd-kv-item full-width"><span class="prd-kv-label">Mobile & Desktop Support</span><span class="prd-kv-val">Full cross-platform responsive web application.</span></div>
+        </div>
+      </div>
+
+      ${transcriptText ? `
+      <div class="prd-card-section">
+        <h4 class="prd-card-title">9. Guava AI Interactive Conversation Log</h4>
+        <div class="prd-kv-grid">
+          <div class="prd-kv-item full-width"><span class="prd-kv-label">Extracted Interview Log</span><span class="prd-kv-val">${transcriptText}</span></div>
+        </div>
+      </div>
+      ` : ''}
     `;
   };
 
