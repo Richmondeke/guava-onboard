@@ -1,0 +1,9 @@
+{
+  "name": "guava-onboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Guava onboarding PRD questionnaire — onboard.guava.earth",
+  "engines": {
+    "node": "22.x"
+  }
+}

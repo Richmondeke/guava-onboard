@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start Your Project — Guava</title>
+  <meta name="description" content="Guava AI Agency Onboarding Questionnaire">
+  <meta property="og:title" content="Start Your Project — Guava">
+  <meta property="og:description" content="Guava AI Agency Onboarding Questionnaire">
+  <link rel="icon" href="https://framerusercontent.com/images/wfkJyk1Jvhi2d52X06m60DGj8Q.png" type="image/png">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Progress Bar -->
+  <div class="progress-container">
+    <div class="progress-bar-bg">
+      <div id="progressFill"></div>
+    </div>
+    <div id="progressInfo">Step 1 of 6</div>
+  </div>
+
+  <div class="app-container">
+    <header class="app-header">
+      <a href="https://guava.earth" class="brand-logo">guava.</a>
+    </header>
+
+    <main class="form-card">
+      
+      <!-- Step 1: Contact Info -->
+      <section id="step-1" class="step active">
+        <div class="step-badge">01</div>
+        <h2 class="step-heading">Let's build something amazing.</h2>
+        
+        <div class="form-group">
+          <label for="fullName">Full Name *</label>
+          <input type="text" id="fullName" class="form-control" required placeholder="Jane Doe" aria-label="Full Name">
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" class="form-control" required placeholder="jane@example.com" aria-label="Email Address">
+        </div>
+        
+        <div class="form-group">
+          <label for="company">Company (Optional)</label>
+          <input type="text" id="company" class="form-control" placeholder="Acme Corp" aria-label="Company">
+        </div>
+        
+        <div class="form-group">
+          <label for="phone">Phone Number (Optional)</label>
+          <input type="tel" id="phone" class="form-control" placeholder="+1 (555) 000-0000" aria-label="Phone Number">
+        </div>
+      </section>
+
+      <!-- Step 2: Project Type -->
+      <section id="step-2" class="step">
+        <div class="step-badge">02</div>
+        <h2 class="step-heading">What are you building?</h2>
+        
+        <div id="projectTypeTags" class="tag-grid">
+          <!-- Tags populated by JS -->
+          <div class="tag-card" data-value="web-app">
+            <span class="tag-emoji">🌐</span>
+            <span class="tag-label">Web App</span>
+            <div class="tag-checkmark"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"></polyline></svg></div>
+          </div>
+          <div class="tag-card" data-value="mobile-app">
+            <span class="tag-emoji">📱</span>
+            <span class="tag-label">Mobile App</span>
+            <div class="tag-checkmark"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"></polyline></svg></div>
+          </div>
+          <div class="tag-card" data-value="ai-integration">
+            <span class="tag-emoji">🤖</span>
+            <span class="tag-label">AI Integration</span>
+            <div class="tag-checkmark"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"></polyline></svg></div>
+          </div>
+          <div class="tag-card" data-value="automation">
+            <span class="tag-emoji">⚡</span>
+            <span class="tag-label">Automation</span>
+            <div class="tag-checkmark"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"></polyline></svg></div>
+          </div>
+        </div>
+        
+        <div class="custom-input-row">
+          <input type="text" id="customProjectType" class="form-control tag-custom" placeholder="Other project type...">
+          <button type="button" id="addProjectTypeBtn" class="btn-add">+ Add</button>
+        </div>
+        <div id="customProjectTypeList" class="custom-tags-list"></div>
+      </section>
+
+      <!-- Step 3: Project Scope -->
+      <section id="step-3" class="step">
+        <div class="step-badge">03</div>
+        <h2 class="step-heading">Project scope & timeline</h2>
+        
+        <div class="form-group">
+          <label for="budget">Estimated Budget</label>
+          <select id="budget" class="form-control" aria-label="Estimated Budget">
+            <option value="" disabled selected>Select budget range...</option>
+            <option value="under-5k">Under $5K</option>
+            <option value="5k-15k">$5K - $15K</option>
+            <option value="15k-50k">$15K - $50K</option>
+            <option value="50k-100k">$50K - $100K</option>
+            <option value="100k+">$100K+</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="timeline">Desired Timeline</label>
+          <select id="timeline" class="form-control" aria-label="Desired Timeline">
+            <option value="" disabled selected>Select timeline...</option>
+            <option value="asap">ASAP</option>
+            <option value="1-2-weeks">1-2 Weeks</option>
+            <option value="1-month">1 Month</option>
+            <option value="2-3-months">2-3 Months</option>
+            <option value="3-months-plus">3+ Months</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="teamSize">Team Size Needed</label>
+          <select id="teamSize" class="form-control" aria-label="Team Size Needed">
+            <option value="" disabled selected>Select team size...</option>
+            <option value="solo">Solo Developer</option>
+            <option value="small">Small Team (2-3)</option>
+            <option value="full">Full Team (4+)</option>
+            <option value="not-sure">Not Sure</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Step 4: Tech Stack -->
+      <section id="step-4" class="step">
+        <div class="step-badge">04</div>
+        <h2 class="step-heading">Technical preferences</h2>
+        
+        <button type="button" id="letGuavaDecide" class="btn btn-secondary">🪄 Let Guava Decide</button>
+        
+        <div class="tech-categories">
+          <h3 class="category-title">Frontend</h3>
+          <div id="frontendTags" class="tag-grid">
+            <div class="tag-card" data-value="react"><span class="tag-label">React</span><div class="tag-checkmark"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"></polyline></svg></div></div>
+            <div class="tag-card" data-value="vue"><span class="tag-label">Vue</span><div class="tag-checkmark"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"></polyline></svg></div></div>
+            <div class="tag-card" data-value="nextjs"><span class="tag-label">Next.js</span><div class="tag-checkmark"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"></polyline></svg></div></div>
+          </div>
+          
+          <h3 class="category-title">Backend</h3>
+          <div id="backendTags" class="tag-grid">
+            <div class="tag-card" data-value="nodejs"><span class="tag-label">Node.js</span><div class="tag-checkmark"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"></polyline></svg></div></div>
+            <div class="tag-card" data-value="python"><span class="tag-label">Python</span><div class="tag-checkmark"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"></polyline></svg></div></div>
+            <div class="tag-card" data-value="go"><span class="tag-label">Go</span><div class="tag-checkmark"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"></polyline></svg></div></div>
+          </div>
+          
+          <h3 class="category-title">Database</h3>
+          <div id="databaseTags" class="tag-grid">
+            <div class="tag-card" data-value="postgres"><span class="tag-label">PostgreSQL</span><div class="tag-checkmark"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"></polyline></svg></div></div>
+            <div class="tag-card" data-value="mongodb"><span class="tag-label">MongoDB</span><div class="tag-checkmark"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"></polyline></svg></div></div>
+          </div>
+
+          <h3 class="category-title">AI / ML</h3>
+          <div id="aiTags" class="tag-grid">
+            <div class="tag-card" data-value="openai"><span class="tag-label">OpenAI</span><div class="tag-checkmark"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"></polyline></svg></div></div>
+            <div class="tag-card" data-value="anthropic"><span class="tag-label">Anthropic</span><div class="tag-checkmark"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"></polyline></svg></div></div>
+          </div>
+
+          <h3 class="category-title">Cloud & Automation</h3>
+          <div id="cloudTags" class="tag-grid">
+            <div class="tag-card" data-value="aws"><span class="tag-label">AWS</span><div class="tag-checkmark"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"></polyline></svg></div></div>
+            <div class="tag-card" data-value="gcp"><span class="tag-label">GCP</span><div class="tag-checkmark"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"></polyline></svg></div></div>
+          </div>
+        </div>
+        
+        <div class="custom-input-row">
+          <input type="text" id="customTech" class="form-control tag-custom" placeholder="Other technology...">
+          <button type="button" id="addTechBtn" class="btn-add">+ Add</button>
+        </div>
+        <div id="customTechList" class="custom-tags-list"></div>
+      </section>
+
+      <!-- Step 5: Vision -->
+      <section id="step-5" class="step">
+        <div class="step-badge">05</div>
+        <h2 class="step-heading">Describe your vision</h2>
+        
+        <div class="form-group">
+          <label for="projectName">Project Name (Optional)</label>
+          <input type="text" id="projectName" class="form-control" placeholder="Secret Project X" aria-label="Project Name">
+        </div>
+        
+        <div class="form-group">
+          <label for="description">Core Features & Vision</label>
+          <textarea id="description" class="form-control" rows="6" placeholder="Tell us what you want to achieve..." aria-label="Description"></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="additionalNotes">Additional Notes (Optional)</label>
+          <textarea id="additionalNotes" class="form-control" rows="3" placeholder="Any constraints, examples, or competitor references..." aria-label="Additional Notes"></textarea>
+        </div>
+      </section>
+
+      <!-- Step 6: Review -->
+      <section id="step-6" class="step">
+        <div class="step-badge">06</div>
+        <h2 class="step-heading">Review your brief</h2>
+        
+        <div id="reviewContent">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- Success Screen -->
+      <section id="step-success" class="step">
+        <div class="success-container">
+          <svg class="success-icon" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45"></circle>
+            <path d="M 25 50 L 45 70 L 75 30"></path>
+          </svg>
+          <h2 class="success-heading">You're all set! 🎉</h2>
+          <p class="success-text">We've received your brief and will get back to you within 24 hours.</p>
+          <a href="https://guava.earth" class="success-link">Return to guava.earth</a>
+        </div>
+      </section>
+
+      <!-- Navigation Buttons -->
+      <div id="navButtons" class="nav-buttons">
+        <button type="button" id="backBtn" class="btn btn-secondary">Back</button>
+        <button type="button" id="nextBtn" class="btn btn-primary">Next Step</button>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
