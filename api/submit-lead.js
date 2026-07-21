@@ -125,6 +125,8 @@ export default async function handler(req, res) {
               email: lead.contact.email,
               company: lead.contact.company,
               phone: lead.contact.phone,
+              app_source: 'onboard.guava.earth',
+              product_line: 'Guava Earth (Mother Agency)',
               prd_data: lead,
               created_at: new Date().toISOString()
             }
