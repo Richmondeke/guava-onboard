@@ -41,13 +41,44 @@
         </a>
         <span class="brand-title">Product Requirement Questionnaire</span>
       </div>
-      <button id="themeToggle" class="theme-toggle-btn" type="button" aria-label="Toggle theme">
-        <span class="theme-icon-dark">🌙</span>
-        <span class="theme-icon-light">☀️</span>
-      </button>
+      
+      <div class="header-controls">
+        <div class="mode-switcher" id="modeSwitcher">
+          <button type="button" class="mode-btn active" id="btnModeStep">📋 Step Form</button>
+          <button type="button" class="mode-btn" id="btnModeChat">🤖 Guava AI Chat</button>
+        </div>
+        <button id="themeToggle" class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+          <span class="theme-icon-dark">🌙</span>
+          <span class="theme-icon-light">☀️</span>
+        </button>
+      </div>
     </header>
 
-    <main class="form-card">
+    <!-- AI Chat Form Container (Hidden by default) -->
+    <main id="chatCard" class="form-card chat-card" style="display: none;">
+      <div class="chat-header">
+        <div class="chat-avatar">🤖</div>
+        <div>
+          <h2 class="chat-title">Guava AI Product Architect</h2>
+          <p class="chat-subtitle">Chat in plain language. Guava AI will interview you and extract your full PRD automatically.</p>
+        </div>
+      </div>
+
+      <div id="chatMessages" class="chat-messages">
+        <!-- Dynamic chat bubbles -->
+      </div>
+
+      <div class="chat-input-wrapper">
+        <textarea id="chatInput" class="form-control chat-input" rows="2" placeholder="Type your message... (e.g. 'I want to build a SaaS for real estate agents')"></textarea>
+        <button id="chatSendBtn" type="button" class="btn btn-primary chat-send-btn">Send ➔</button>
+      </div>
+
+      <div class="chat-actions">
+        <button id="btnSaveChatPRD" type="button" class="btn btn-secondary btn-sm" style="display: none;">💾 Compile & Save PRD to Backend</button>
+      </div>
+    </main>
+
+    <main id="stepFormCard" class="form-card">
       
       <!-- Step 1: Contact Info -->
       <section id="step-1" class="step active">
@@ -162,57 +193,57 @@
         </div>
       </section>
 
-      <!-- Step 5: Auth, Security & Data Model -->
+      <!-- Step 5: User Access, Permissions & Security -->
       <section id="step-5" class="step">
-        <div class="step-badge">Step 05 / 08 — PRD: Architecture & Auth</div>
-        <h2 class="step-heading">Authentication, Access Control & Data Model</h2>
-        <p class="step-subheading">Define security requirements, user roles, data entities, and compliance.</p>
+        <div class="step-badge">Step 05 / 08 — PRD: User Roles & Security</div>
+        <h2 class="step-heading">User Login, Permissions & Data</h2>
+        <p class="step-subheading">Tell us how users log in and what different user types are allowed to do.</p>
         
         <div class="form-group">
-          <label>Authentication & SSO Methods</label>
+          <label>How should users log in? (Select options)</label>
           <div id="authTypeTags" class="tag-grid"></div>
         </div>
 
         <div class="form-group">
-          <label for="permissionLevels">Access Control Matrix & Role Permissions</label>
-          <textarea id="permissionLevels" class="form-control" rows="3" placeholder="e.g. Owner (full access), Admin (manage team/billing), Member (create content), Guest (read-only)..." aria-label="Permission Levels"></textarea>
+          <label for="permissionLevels">User Types & Permissions (Optional)</label>
+          <textarea id="permissionLevels" class="form-control" rows="3" placeholder="Who gets to see or edit what? e.g. Owner (can edit everything), Admin (manages team), Regular User (creates content)..." aria-label="Permission Levels"></textarea>
         </div>
 
         <div class="form-group">
-          <label for="dataEntities">Core Data Entities & Retention Policies</label>
-          <input type="text" id="dataEntities" class="form-control" placeholder="e.g. Users, Workspaces, Projects, Documents, Invoices | Data retention: 2 years" aria-label="Data Entities">
+          <label for="dataEntities">Main Information Saved (Optional)</label>
+          <input type="text" id="dataEntities" class="form-control" placeholder="What key data is stored? e.g. User Profiles, Documents, Receipts, Invoices, Customer Records..." aria-label="Data Saved">
         </div>
 
         <div class="form-group">
-          <label for="complianceNeeds">Security, Privacy & Compliance Requirements</label>
-          <input type="text" id="complianceNeeds" class="form-control" placeholder="e.g. GDPR compliance, HIPAA data privacy, Encryption at rest, SOC2 controls" aria-label="Compliance Needs">
+          <label for="complianceNeeds">Security & Privacy Needs (Optional)</label>
+          <input type="text" id="complianceNeeds" class="form-control" placeholder="Any specific requirements? e.g. Standard data privacy, GDPR, HIPAA compliance, Password protection..." aria-label="Security Needs">
         </div>
       </section>
 
-      <!-- Step 6: Integrations, NFRs & UX Guidelines -->
+      <!-- Step 6: Integrations, Design & Performance -->
       <section id="step-6" class="step">
-        <div class="step-badge">Step 06 / 08 — PRD: Integrations & UX</div>
-        <h2 class="step-heading">Integrations, UX Guidelines & NFRs</h2>
-        <p class="step-subheading">Specify external APIs, design expectations, performance SLAs, and edge cases.</p>
+        <div class="step-badge">Step 06 / 08 — PRD: Connections & Design</div>
+        <h2 class="step-heading">App Connections & Visual Design</h2>
+        <p class="step-subheading">Which external tools should we connect, and how should your app feel?</p>
         
         <div class="form-group">
-          <label>Third-Party Integrations Required</label>
+          <label>External Tools & Services (Select options)</label>
           <div id="integrationTags" class="tag-grid"></div>
         </div>
 
         <div class="form-group">
-          <label for="customIntegrations">Specific API Details & Webhooks</label>
-          <textarea id="customIntegrations" class="form-control" rows="3" placeholder="e.g. Stripe Billing Webhooks, OpenAI GPT-4o API, HubSpot CRM Sync, SendGrid Transactional Emails..." aria-label="Custom Integrations"></textarea>
+          <label for="customIntegrations">Specific Apps or APIs to Connect (Optional)</label>
+          <textarea id="customIntegrations" class="form-control" rows="3" placeholder="e.g. Connect Stripe for payments, OpenAI for AI features, HubSpot CRM for sales leads..." aria-label="Custom Integrations"></textarea>
         </div>
 
         <div class="form-group">
-          <label for="designPreferences">Design & UX Guidelines / Branding / Admired Apps</label>
-          <input type="text" id="designPreferences" class="form-control" placeholder="e.g. Sleek dark mode, match brand colors (#512FEB), inspired by Linear and Notion UI" aria-label="Design Preferences">
+          <label for="designPreferences">Design & Style Preferences (Optional)</label>
+          <input type="text" id="designPreferences" class="form-control" placeholder="e.g. Modern dark theme, match our brand logo colors, clean UI inspired by Notion or Apple..." aria-label="Design Preferences">
         </div>
 
         <div class="form-group">
-          <label for="nonFunctionalReqs">Performance, SLA & Edge Cases (NFRs)</label>
-          <textarea id="nonFunctionalReqs" class="form-control" rows="3" placeholder="e.g. Page load < 1.5s, 99.9% uptime, graceful degradation if AI API is down, handle 10k concurrent users" aria-label="Non-Functional Requirements"></textarea>
+          <label for="nonFunctionalReqs">Speed & Reliability Goals (Optional)</label>
+          <textarea id="nonFunctionalReqs" class="form-control" rows="2" placeholder="e.g. Super fast page load times, 99.9% uptime, must work smoothly on mobile web..." aria-label="Performance Goals"></textarea>
         </div>
       </section>
 

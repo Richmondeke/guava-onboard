@@ -57,11 +57,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // Step 8: Review
     reviewContent: document.getElementById('reviewContent'),
     
-    // Nav
+    // Nav & Mode
     backBtn: document.getElementById('backBtn'),
     nextBtn: document.getElementById('nextBtn'),
     navButtons: document.getElementById('navButtons'),
-    themeToggle: document.getElementById('themeToggle')
+    themeToggle: document.getElementById('themeToggle'),
+    btnModeStep: document.getElementById('btnModeStep'),
+    btnModeChat: document.getElementById('btnModeChat'),
+    stepFormCard: document.getElementById('stepFormCard'),
+    chatCard: document.getElementById('chatCard'),
+    chatMessages: document.getElementById('chatMessages'),
+    chatInput: document.getElementById('chatInput'),
+    chatSendBtn: document.getElementById('chatSendBtn'),
+    btnSaveChatPRD: document.getElementById('btnSaveChatPRD')
   };
 
   // Theme Toggle Logic
@@ -86,6 +94,30 @@ document.addEventListener('DOMContentLoaded', () => {
       
       document.documentElement.setAttribute('data-theme', targetTheme);
       localStorage.setItem('guava_theme', targetTheme);
+    });
+  }
+
+  // Mode Switcher (Step Form vs Guava AI Chat)
+  if (els.btnModeStep && els.btnModeChat) {
+    els.btnModeStep.addEventListener('click', () => {
+      els.btnModeStep.classList.add('active');
+      els.btnModeChat.classList.remove('active');
+      if (els.stepFormCard) els.stepFormCard.style.display = 'block';
+      if (els.navButtons) els.navButtons.style.display = 'flex';
+      if (els.chatCard) els.chatCard.style.display = 'none';
+    });
+
+    els.btnModeChat.addEventListener('click', () => {
+      els.btnModeChat.classList.add('active');
+      els.btnModeStep.classList.remove('active');
+      if (els.stepFormCard) els.stepFormCard.style.display = 'none';
+      if (els.navButtons) els.navButtons.style.display = 'none';
+      if (els.chatCard) els.chatCard.style.display = 'flex';
+      
+      // Init chat if empty
+      if (chatHistory.length === 0) {
+        initChat();
+      }
     });
   }
 
@@ -697,6 +729,128 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => toast.remove(), 300);
     }, 4000);
   };
+
+  // ─── AI Chat Form Engine ──────────────────────────────────────
+  const chatHistory = [];
+
+  const addChatBubble = (text, role) => {
+    if (!els.chatMessages) return;
+    const bubble = document.createElement('div');
+    bubble.className = `chat-bubble ${role}`;
+    bubble.textContent = text;
+    els.chatMessages.appendChild(bubble);
+    els.chatMessages.scrollTop = els.chatMessages.scrollHeight;
+  };
+
+  const initChat = () => {
+    const welcomeMsg = "Hello! 👋 I'm your Guava AI Product Architect. I'm here to help you outline your product requirements in simple language.\n\nTo start, what is the name of your product, and what core problem does it solve for your users?";
+    chatHistory.push({ role: 'model', text: welcomeMsg });
+    addChatBubble(welcomeMsg, 'ai');
+  };
+
+  const handleSendChatMessage = async () => {
+    if (!els.chatInput || !els.chatSendBtn) return;
+    const userText = els.chatInput.value.trim();
+    if (!userText) return;
+
+    // Display User Message
+    addChatBubble(userText, 'user');
+    chatHistory.push({ role: 'user', text: userText });
+    els.chatInput.value = '';
+
+    // Show AI Typing Indicator
+    const typingBubble = document.createElement('div');
+    typingBubble.className = 'chat-bubble ai';
+    typingBubble.textContent = 'Guava AI is thinking... 💭';
+    els.chatMessages.appendChild(typingBubble);
+    els.chatMessages.scrollTop = els.chatMessages.scrollHeight;
+
+    els.chatSendBtn.disabled = true;
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: chatHistory })
+      });
+
+      const data = await res.json();
+      typingBubble.remove();
+
+      if (res.ok && data.success && data.reply) {
+        addChatBubble(data.reply, 'ai');
+        chatHistory.push({ role: 'model', text: data.reply });
+
+        // Show compile button after 3 turns
+        if (chatHistory.length >= 6 && els.btnSaveChatPRD) {
+          els.btnSaveChatPRD.style.display = 'inline-block';
+        }
+      } else {
+        addChatBubble(data.error || 'Sorry, I encountered an issue generating a response. Please try again.', 'ai');
+      }
+    } catch (err) {
+      console.error(err);
+      typingBubble.remove();
+      addChatBubble('Network connection issue. Please try again.', 'ai');
+    } finally {
+      els.chatSendBtn.disabled = false;
+    }
+  };
+
+  if (els.chatSendBtn && els.chatInput) {
+    els.chatSendBtn.addEventListener('click', handleSendChatMessage);
+    els.chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        handleSendChatMessage();
+      }
+    });
+  }
+
+  // Save Chat PRD to Supabase Backend
+  if (els.btnSaveChatPRD) {
+    els.btnSaveChatPRD.addEventListener('click', async () => {
+      els.btnSaveChatPRD.disabled = true;
+      els.btnSaveChatPRD.textContent = 'Saving PRD to Backend...';
+
+      const fullChatTranscript = chatHistory.map(m => `${m.role === 'user' ? 'Client' : 'Guava AI'}: ${m.text}`).join('\n\n');
+
+      const payload = {
+        contact: {
+          fullName: 'AI Chat Client',
+          email: 'chat-client@guava.earth'
+        },
+        overviewAndValueProp: {
+          projectName: 'Guava AI Interactive Brief',
+          description: fullChatTranscript.substring(0, 500) + '...'
+        },
+        aiChatTranscript: fullChatTranscript,
+        submittedAt: new Date().toISOString()
+      };
+
+      try {
+        const res = await fetch('/api/submit-lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success) {
+          addChatBubble(`🎉 Excellent! Your PRD transcript has been successfully saved to the backend (Lead ID: ${data.leadId}). Our Guava engineering team will review it and follow up shortly!`, 'ai');
+          triggerConfetti();
+        } else {
+          alert('Failed to save PRD. Please try again.');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Network error saving PRD.');
+      } finally {
+        els.btnSaveChatPRD.disabled = false;
+        els.btnSaveChatPRD.textContent = '💾 Compile & Save PRD to Backend';
+      }
+    });
+  }
 
   // Event Listeners for Nav
   if (els.backBtn) els.backBtn.addEventListener('click', () => goToStep(currentStep - 1));
