@@ -344,9 +344,12 @@
       </div>
 
       <div class="chat-input-wrapper">
+        <input type="file" id="chatFileInput" style="display: none;" accept="image/*,.pdf,.doc,.docx,.txt" multiple>
+        <button id="chatAttachBtn" type="button" class="chat-attach-btn" title="Attach file or document">📎</button>
         <textarea id="chatInput" class="form-control chat-input" rows="2" placeholder="Type your message... (e.g. 'I want to build a SaaS for real estate agents')"></textarea>
         <button id="chatSendBtn" type="button" class="btn btn-primary chat-send-btn">Send ➔</button>
       </div>
+      <div id="chatFilePreview" class="chat-file-preview"></div>
 
       <div class="chat-actions">
         <button id="btnSaveChatPRD" type="button" class="btn btn-secondary btn-sm" style="display: none;">💾 Compile & Save PRD to Backend</button>

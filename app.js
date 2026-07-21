@@ -68,6 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
     chatMessages: document.getElementById('chatMessages'),
     chatInput: document.getElementById('chatInput'),
     chatSendBtn: document.getElementById('chatSendBtn'),
+    chatAttachBtn: document.getElementById('chatAttachBtn'),
+    chatFileInput: document.getElementById('chatFileInput'),
+    chatFilePreview: document.getElementById('chatFilePreview'),
     btnSaveChatPRD: document.getElementById('btnSaveChatPRD')
   };
 
@@ -782,15 +785,59 @@ document.addEventListener('DOMContentLoaded', () => {
     addChatBubble(welcomeMsg, 'ai');
   };
 
+  // File Attachment Handling
+  let attachedFiles = [];
+
+  if (els.chatAttachBtn && els.chatFileInput) {
+    els.chatAttachBtn.addEventListener('click', () => els.chatFileInput.click());
+
+    els.chatFileInput.addEventListener('change', (e) => {
+      const files = Array.from(e.target.files);
+      files.forEach(file => {
+        if (!attachedFiles.some(f => f.name === file.name)) {
+          attachedFiles.push(file);
+        }
+      });
+      renderFilePreviews();
+    });
+  }
+
+  const renderFilePreviews = () => {
+    if (!els.chatFilePreview) return;
+    els.chatFilePreview.innerHTML = '';
+    attachedFiles.forEach((file, index) => {
+      const badge = document.createElement('span');
+      badge.className = 'chat-file-badge';
+      badge.innerHTML = `📄 ${file.name} <span class="remove-file" data-index="${index}">×</span>`;
+      els.chatFilePreview.appendChild(badge);
+    });
+
+    els.chatFilePreview.querySelectorAll('.remove-file').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt(e.target.getAttribute('data-index'), 10);
+        attachedFiles.splice(idx, 1);
+        renderFilePreviews();
+      });
+    });
+  };
+
   const handleSendChatMessage = async () => {
     if (!els.chatInput || !els.chatSendBtn) return;
     const userText = els.chatInput.value.trim();
-    if (!userText) return;
+    if (!userText && attachedFiles.length === 0) return;
+
+    let fullMessageText = userText;
+    if (attachedFiles.length > 0) {
+      const fileNames = attachedFiles.map(f => f.name).join(', ');
+      fullMessageText += `\n[Attached files: ${fileNames}]`;
+    }
 
     // Display User Message
-    addChatBubble(userText, 'user');
-    chatHistory.push({ role: 'user', text: userText });
+    addChatBubble(fullMessageText, 'user');
+    chatHistory.push({ role: 'user', text: fullMessageText });
     els.chatInput.value = '';
+    attachedFiles = [];
+    renderFilePreviews();
 
     // Show AI Typing Indicator
     const typingBubble = document.createElement('div');

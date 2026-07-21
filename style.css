@@ -322,9 +322,61 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
 
 .chat-input-wrapper {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   align-items: center;
   margin-top: 14px;
+}
+
+.chat-attach-btn {
+  background: var(--tag-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text-main);
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-speed);
+  flex-shrink: 0;
+}
+
+.chat-attach-btn:hover {
+  background: var(--tag-hover);
+  border-color: var(--primary-color);
+  transform: scale(1.05);
+}
+
+.chat-file-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.chat-file-badge {
+  background: var(--tag-bg);
+  border: 1px solid var(--primary-color);
+  color: var(--text-main);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.78rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chat-file-badge .remove-file {
+  cursor: pointer;
+  opacity: 0.7;
+  font-weight: bold;
+}
+
+.chat-file-badge .remove-file:hover {
+  opacity: 1;
+  color: var(--error-color);
 }
 
 .chat-input {
@@ -338,6 +390,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
   padding: 12px 20px;
   border-radius: 16px;
   white-space: nowrap;
+}
 }
 
 .chat-actions {
@@ -905,6 +958,44 @@ textarea.form-control {
     flex-direction: column-reverse;
     gap: 12px;
   }
+}
+
+/* Mobile Responsiveness for AI Chat Modal & Floating Button */
+@media (max-width: 600px) {
+  .chat-floating-btn {
+    bottom: 16px;
+    right: 16px;
+    padding: 12px 18px;
+    font-size: 0.85rem;
+  }
+
+  .chat-modal-content {
+    width: 95%;
+    height: 90vh;
+    max-height: 90vh;
+    padding: 18px 14px;
+    border-radius: 20px;
+  }
+
+  .chat-bubble {
+    max-width: 92%;
+    padding: 12px 14px;
+    font-size: 0.88rem;
+  }
+
+  .chat-input-wrapper {
+    gap: 6px;
+  }
+
+  .chat-send-btn {
+    padding: 10px 14px;
+    font-size: 0.85rem;
+  }
+
+  .app-container {
+    padding: 16px 12px 80px;
+  }
+}
 /* Step Animations */
 .slideInRight {
   animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
