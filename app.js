@@ -354,11 +354,19 @@ document.addEventListener('DOMContentLoaded', () => {
         isValid = false;
       }
     } else if (step === 2) {
+      // Step 2 is now Vision
+      if (els.description && els.description.value.trim().length < 20) {
+        showError(els.description, 'Description must be at least 20 characters');
+        isValid = false;
+      }
+    } else if (step === 3) {
+      // Step 3 is now Project Type
       if (state.projectTypes.size === 0 && els.projectTypeTags) {
         showError(els.projectTypeTags, 'Please select at least one project type');
         isValid = false;
       }
-    } else if (step === 3) {
+    } else if (step === 4) {
+      // Step 4 is now Scope (Optional dropdowns or validated if selected)
       [els.budget, els.timeline, els.teamSize].forEach(el => {
         if (el && !el.value) {
           showError(el, 'This field is required');
@@ -366,10 +374,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     } else if (step === 5) {
-      if (els.description && els.description.value.trim().length < 20) {
-        showError(els.description, 'Description must be at least 20 characters');
-        isValid = false;
-      }
+      // Step 5 is Tech Stack (Optional - no mandatory validation)
+      isValid = true;
     }
     
     return isValid;
@@ -386,6 +392,11 @@ document.addEventListener('DOMContentLoaded', () => {
         { label: 'Company', value: els.company?.value || 'N/A' },
         { label: 'Phone', value: els.phone?.value || 'N/A' }
       ],
+      Vision: [
+        { label: 'Project Name', value: els.projectName?.value || 'N/A' },
+        { label: 'Description', value: els.description?.value },
+        { label: 'Inspiration & Notes', value: els.additionalNotes?.value || 'N/A' }
+      ],
       'Project Types': Array.from(state.projectTypes),
       Scope: [
         { label: 'Budget', value: els.budget?.options?.[els.budget.selectedIndex]?.text || els.budget?.value },
@@ -399,22 +410,17 @@ document.addEventListener('DOMContentLoaded', () => {
         ...state.techStack.ai,
         ...state.techStack.cloud,
         ...state.techStack.custom
-      ],
-      Vision: [
-        { label: 'Project Name', value: els.projectName?.value || 'N/A' },
-        { label: 'Description', value: els.description?.value },
-        { label: 'Additional Notes', value: els.additionalNotes?.value || 'N/A' }
-      ]
+      ].filter(Boolean)
     };
 
     let html = '';
     
     const stepMap = {
       'Contact': 1,
-      'Project Types': 2,
-      'Scope': 3,
-      'Tech Stack': 4,
-      'Vision': 5
+      'Vision': 2,
+      'Project Types': 3,
+      'Scope': 4,
+      'Tech Stack': 5
     };
 
     for (const [section, data] of Object.entries(reviewData)) {

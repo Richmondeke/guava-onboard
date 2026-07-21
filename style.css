@@ -210,8 +210,14 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
 .step-heading {
   font-size: 2rem;
   font-weight: 700;
-  margin-bottom: 32px;
+  margin-bottom: 8px;
   color: var(--text-main);
+}
+
+.step-subheading {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
 }
 
 /* Steps */

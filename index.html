@@ -65,10 +65,33 @@
         </div>
       </section>
 
-      <!-- Step 2: Project Type -->
+      <!-- Step 2: Vision & Core Concept -->
       <section id="step-2" class="step">
         <div class="step-badge">02</div>
-        <h2 class="step-heading">What are you building?</h2>
+        <h2 class="step-heading">Describe your vision</h2>
+        <p class="step-subheading">Tell us in plain language what you want to achieve. No technical jargon required!</p>
+        
+        <div class="form-group">
+          <label for="projectName">Project Name (Optional)</label>
+          <input type="text" id="projectName" class="form-control" placeholder="e.g. My Next Startup / Internal Tool" aria-label="Project Name">
+        </div>
+        
+        <div class="form-group">
+          <label for="description">What problem are you solving & what should it do? *</label>
+          <textarea id="description" class="form-control" rows="6" placeholder="Describe the goal, key features, target users, or dream outcome..." aria-label="Description"></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="additionalNotes">Reference Apps or Inspiration (Optional)</label>
+          <textarea id="additionalNotes" class="form-control" rows="3" placeholder="Links to websites/apps you like, competitor references, or specific ideas..." aria-label="Additional Notes"></textarea>
+        </div>
+      </section>
+
+      <!-- Step 3: Project Type -->
+      <section id="step-3" class="step">
+        <div class="step-badge">03</div>
+        <h2 class="step-heading">What kind of app is this?</h2>
+        <p class="step-subheading">Select all that sound like what you have in mind.</p>
         
         <div id="projectTypeTags" class="tag-grid">
           <!-- Tags populated by JS -->
@@ -84,12 +107,12 @@
           </div>
           <div class="tag-card" data-value="ai-integration">
             <span class="tag-emoji">🤖</span>
-            <span class="tag-label">AI Integration</span>
+            <span class="tag-label">AI Integration / Agent</span>
             <div class="tag-checkmark"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"></polyline></svg></div>
           </div>
           <div class="tag-card" data-value="automation">
             <span class="tag-emoji">⚡</span>
-            <span class="tag-label">Automation</span>
+            <span class="tag-label">Automation Workflow</span>
             <div class="tag-checkmark"><svg viewBox="0 0 24 24"><polyline points="4 12 9 17 20 6"></polyline></svg></div>
           </div>
         </div>
@@ -101,9 +124,9 @@
         <div id="customProjectTypeList" class="custom-tags-list"></div>
       </section>
 
-      <!-- Step 3: Project Scope -->
-      <section id="step-3" class="step">
-        <div class="step-badge">03</div>
+      <!-- Step 4: Scope & Timeline -->
+      <section id="step-4" class="step">
+        <div class="step-badge">04</div>
         <h2 class="step-heading">Project scope & timeline</h2>
         
         <div class="form-group">
@@ -142,12 +165,13 @@
         </div>
       </section>
 
-      <!-- Step 4: Tech Stack -->
-      <section id="step-4" class="step">
-        <div class="step-badge">04</div>
-        <h2 class="step-heading">Technical preferences</h2>
+      <!-- Step 5: Technical Preferences (Optional) -->
+      <section id="step-5" class="step">
+        <div class="step-badge">05</div>
+        <h2 class="step-heading">Technical preferences (Optional)</h2>
+        <p class="step-subheading">If you have specific preferences, select them below. Otherwise, click "Let Guava Decide"!</p>
         
-        <button type="button" id="letGuavaDecide" class="btn btn-secondary">🪄 Let Guava Decide</button>
+        <button type="button" id="letGuavaDecide" class="btn btn-secondary">🪄 Let Guava Decide Best Tech Stack</button>
         
         <div class="tech-categories">
           <h3 class="category-title">Frontend</h3>
@@ -188,27 +212,6 @@
           <button type="button" id="addTechBtn" class="btn-add">+ Add</button>
         </div>
         <div id="customTechList" class="custom-tags-list"></div>
-      </section>
-
-      <!-- Step 5: Vision -->
-      <section id="step-5" class="step">
-        <div class="step-badge">05</div>
-        <h2 class="step-heading">Describe your vision</h2>
-        
-        <div class="form-group">
-          <label for="projectName">Project Name (Optional)</label>
-          <input type="text" id="projectName" class="form-control" placeholder="Secret Project X" aria-label="Project Name">
-        </div>
-        
-        <div class="form-group">
-          <label for="description">Core Features & Vision</label>
-          <textarea id="description" class="form-control" rows="6" placeholder="Tell us what you want to achieve..." aria-label="Description"></textarea>
-        </div>
-        
-        <div class="form-group">
-          <label for="additionalNotes">Additional Notes (Optional)</label>
-          <textarea id="additionalNotes" class="form-control" rows="3" placeholder="Any constraints, examples, or competitor references..." aria-label="Additional Notes"></textarea>
-        </div>
       </section>
 
       <!-- Step 6: Review -->
