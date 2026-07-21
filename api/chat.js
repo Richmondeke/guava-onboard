@@ -1,8 +1,7 @@
 /**
  * Guava Onboard — AI Chat Endpoint
  * 
- * Interactively interviews users to collect full product requirements (PRD).
- * Employs a comprehensive system prompt covering all 19 PRD categories.
+ * Context-aware AI chatbot that validates input meaningfully and offers interactive button chips.
  */
 
 export default async function handler(req, res) {
@@ -26,26 +25,24 @@ export default async function handler(req, res) {
 
     const apiKey = process.env.GEMINI_API_KEY;
 
-    // Comprehensive System Instruction covering full PRD scope
-    const systemInstruction = `You are Guava AI, an elite Lead Product Architect & Engineer at Guava Earth (guava.earth).
-Your mission is to conduct a friendly, plain-language interview with clients to uncover their FULL Product Requirements Document (PRD) across all 19 core building blocks:
+    const systemInstruction = `You are Guava AI, Lead Product Architect at Guava Earth (guava.earth).
+Your mission is to conduct a friendly, context-aware interview to extract a full Product Requirements Document (PRD).
 
-1. EXECUTIVE OVERVIEW: Product Name, One-sentence elevator pitch, Core problem & inspiration.
-2. BUSINESS GOALS & VALUE PROP: Primary business outcomes, ROI targets, success KPIs, key differentiators.
-3. TARGET AUDIENCE & PERSONAS: Primary user roles, daily workflows, user pain points & current workarounds.
-4. MVP CORE FEATURES: Must-have functional features for V1 vs future V2 non-goals.
-5. USER JOURNEY & STORIES: Key user stories ("As a [user], I want to [action] so that [benefit]") and end-to-end onboarding/usage flow.
-6. USER ACCESS & AUTHENTICATION: Login methods (Email, Google, SSO, Magic links) & role access levels (Admin, Member, Guest).
-7. DATA MODEL & RETENTION: Core data entities stored (Users, Transactions, Documents) & privacy compliance (GDPR, HIPAA).
-8. INTEGRATIONS & APIS: External tool connections (Stripe, OpenAI, SendGrid, HubSpot, Webhooks, CRMs).
-9. DESIGN & UX EXPECTATIONS: Aesthetics preference (Dark/Light mode, brand colors, admired UI like Linear/Apple/Notion).
-10. PERFORMANCE & SLA: Speed expectations, uptime goals, mobile responsiveness.
-11. BUDGET, RISKS & TIMELINE: Target budget tier, hard deadlines, technical risks & constraints.
+IMPORTANT CONTEXT-AWARE RULES:
+1. If the user gives a short greeting (like "Hi", "Hello", "Hey"), DO NOT say "Got it! Thanks for sharing that about 'Hi'". Instead, warmly welcome them and ask what product idea or software project they want to build!
+2. If the answer is meaningful, acknowledge their specific idea intelligently before asking the next question.
+3. Keep questions clear and conversational.
+4. Whenever asking about structured categories (such as Authentication, User Roles, Integrations, Platforms, Budget, or Timelines), include interactive quick-select button chips in your response using JSON format at the very end of your reply:
+   [OPTIONS: "Email & Password", "Google SSO", "Magic Links", "OAuth / Social Login"]
 
-INTERVIEWING RULES:
-- Ask 1 to 2 clear, encouraging questions per response. Avoid technical jargon.
-- Intelligently validate and reflect back what the user says before asking the next question.
-- After gathering details across 5+ steps, proactively invite the user to click the "💾 Compile & Save PRD to Backend" button.`;
+PRD COVERAGE CATEGORIES:
+1. Product Name & Elevator Pitch
+2. Target Audience & User Personas
+3. MVP Must-Have Core Features
+4. Authentication & Role Permissions
+5. Integrations & Third-Party APIs
+6. Design & UX Preferences
+7. Budget & Launch Timeline`;
 
     if (apiKey) {
       try {
@@ -72,31 +69,48 @@ INTERVIEWING RULES:
           });
         }
       } catch (e) {
-        console.error('Gemini API fetch error, using robust fallback workflow:', e);
+        console.error('Gemini API fetch error, using robust fallback engine:', e);
       }
     }
 
-    // Comprehensive Fallback Sequence matching the system instruction
+    // Context-Aware Rule Engine Fallback
     const userMessages = messages.filter(m => m.role === 'user');
     const stepCount = userMessages.length;
     const lastUserMsg = userMessages[userMessages.length - 1]?.text || '';
+    const cleanMsg = lastUserMsg.toLowerCase().trim();
 
     let fallbackReply = '';
+    let options = [];
+
+    // Greeting detection
+    const isGreeting = ['hi', 'hello', 'hey', 'yo', 'sup', 'good morning', 'good afternoon'].includes(cleanMsg);
 
     if (stepCount === 1) {
-      fallbackReply = `Got it! Thanks for sharing: "${lastUserMsg}".\n\nTo make sure we define a complete PRD, who are your primary target users or personas, and what specific pain points will this product solve for them?`;
+      if (isGreeting) {
+        fallbackReply = `Welcome! 👋 I'm excited to help you design your product brief. What is the name of your product or software idea, and what core problem will it solve?`;
+      } else {
+        fallbackReply = `Got it! "${lastUserMsg}" sounds like a promising concept. Who are your primary target users or ideal customers, and what key pain points will this solve for them?`;
+      }
     } else if (stepCount === 2) {
-      fallbackReply = `That gives us great clarity on your audience!\n\nWhat are the top 3-5 must-have core features for your MVP (Version 1.0), and are there any features explicitly out of scope for now?`;
+      fallbackReply = `That gives us great clarity on your target audience! What are the top 3 must-have core features you want built into your MVP (Version 1.0)?`;
     } else if (stepCount === 3) {
-      fallbackReply = `Awesome feature set! Next, how should users log in (e.g. Email/Password, Google SSO, Magic Links), and will there be different permission levels (e.g. Admins vs regular Members)?`;
+      fallbackReply = `Great feature set! Next, how should users log in and authenticate into your application?`;
+      options = ["Email & Password", "Google SSO", "Magic Links", "Role-Based Access (Admin/Member)"];
     } else if (stepCount === 4) {
-      fallbackReply = `Perfect. What external services or APIs need to be integrated (e.g. Stripe for payments, OpenAI, SendGrid, HubSpot, or custom webhooks)?`;
+      fallbackReply = `Authentication strategy noted! What external services or APIs need to be integrated into your app?`;
+      options = ["Stripe Payments", "OpenAI / LLMs", "SendGrid Emails", "HubSpot CRM", "Custom Webhooks"];
     } else if (stepCount === 5) {
-      fallbackReply = `Noted! Do you have specific design & UX preferences (like dark/light theme, brand color scheme, or admired app designs like Notion, Linear, or Apple)?`;
+      fallbackReply = `Integrations recorded! Do you have specific design & UX style preferences?`;
+      options = ["Modern Dark Theme", "Clean Light Mode", "Match Brand Colors", "Linear / Apple Style UI"];
     } else if (stepCount === 6) {
-      fallbackReply = `Almost complete! What is your estimated target budget range ($5k-$15k, $15k-$50k, $50k+) and desired launch timeline or hard deadlines?`;
+      fallbackReply = `Almost done! What is your target budget range and estimated delivery timeline?`;
+      options = ["Under $5K (ASAP)", "$5K - $15K (1 Month)", "$15K - $50K (2-3 Months)", "$50K+ (Enterprise)"];
     } else {
-      fallbackReply = `🎉 Fantastic! I have gathered a comprehensive overview of your product requirements across all 19 PRD categories.\n\nYou can click the "💾 Compile & Save PRD to Backend" button below to store your complete brief directly with the Guava engineering team!`;
+      fallbackReply = `🎉 Fantastic! I have gathered a comprehensive overview of your product requirements across all core PRD categories.\n\nYou can click the "💾 Compile & Save PRD to Backend" button below to store your complete brief directly with our engineering team!`;
+    }
+
+    if (options.length > 0) {
+      fallbackReply += `\n\n[OPTIONS: ${options.map(o => `"${o}"`).join(', ')}]`;
     }
 
     return res.status(200).json({

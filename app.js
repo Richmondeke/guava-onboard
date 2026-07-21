@@ -729,12 +729,50 @@ document.addEventListener('DOMContentLoaded', () => {
   // ─── AI Chat Form Engine ──────────────────────────────────────
   const chatHistory = [];
 
-  const addChatBubble = (text, role) => {
+  const addChatBubble = (rawText, role) => {
     if (!els.chatMessages) return;
+
+    let textToShow = rawText;
+    let options = [];
+
+    // Parse [OPTIONS: "Opt1", "Opt2"] tag if present
+    const optionsMatch = rawText.match(/\[OPTIONS:\s*(.*?)\]/s);
+    if (optionsMatch) {
+      textToShow = rawText.replace(optionsMatch[0], '').trim();
+      try {
+        options = JSON.parse(`[${optionsMatch[1]}]`);
+      } catch (e) {
+        options = optionsMatch[1].split(',').map(s => s.replace(/["']/g, '').trim());
+      }
+    }
+
     const bubble = document.createElement('div');
     bubble.className = `chat-bubble ${role}`;
-    bubble.textContent = text;
+    bubble.textContent = textToShow;
     els.chatMessages.appendChild(bubble);
+
+    // Render interactive quick-select button chips for AI messages
+    if (role === 'ai' && options.length > 0) {
+      const chipsContainer = document.createElement('div');
+      chipsContainer.className = 'chat-chips-container';
+
+      options.forEach(optText => {
+        const chipBtn = document.createElement('button');
+        chipBtn.type = 'button';
+        chipBtn.className = 'chat-chip-btn';
+        chipBtn.textContent = optText;
+        chipBtn.addEventListener('click', () => {
+          if (els.chatInput) {
+            els.chatInput.value = optText;
+            handleSendChatMessage();
+          }
+        });
+        chipsContainer.appendChild(chipBtn);
+      });
+
+      els.chatMessages.appendChild(chipsContainer);
+    }
+
     els.chatMessages.scrollTop = els.chatMessages.scrollHeight;
   };
 

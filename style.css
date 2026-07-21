@@ -289,6 +289,37 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
   border-bottom-right-radius: 4px;
 }
 
+/* Interactive Quick-Select Button Chips */
+.chat-chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  align-self: flex-start;
+  max-width: 90%;
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.chat-chip-btn {
+  background: var(--tag-bg);
+  border: 1px solid var(--primary-color);
+  color: var(--text-main);
+  padding: 8px 14px;
+  border-radius: 18px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-speed);
+}
+
+.chat-chip-btn:hover {
+  background: var(--primary-color);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(81, 47, 235, 0.4);
+}
+
 .chat-input-wrapper {
   display: flex;
   gap: 10px;
