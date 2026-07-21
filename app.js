@@ -127,8 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
     innerHTML += `<span class="tag-label">${label}</span>`;
     if (isCustom) {
       innerHTML += `<span class="remove-tag">×</span>`;
-    } else {
-      innerHTML += `<span class="tag-check">✓</span>`;
     }
     
     btn.innerHTML = innerHTML;

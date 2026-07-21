@@ -376,33 +376,6 @@ textarea.form-control {
   font-weight: 500;
 }
 
-.tag-checkmark {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 16px;
-  height: 16px;
-  background: var(--primary-color);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transform: scale(0);
-  transition: all var(--transition-speed);
-}
-.tag-card.selected .tag-checkmark {
-  opacity: 1;
-  transform: scale(1);
-}
-.tag-checkmark svg {
-  width: 10px;
-  height: 10px;
-  fill: none;
-  stroke: white;
-  stroke-width: 3;
-}
-
 .tag-custom {
   border: 1px dashed var(--input-border);
 }
