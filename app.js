@@ -375,20 +375,14 @@ document.addEventListener('DOMContentLoaded', () => {
         isValid = false;
       }
     } else if (step === 2) {
-      if (els.description && els.description.value.trim().length < 15) {
-        showError(els.description, 'Executive summary/problem statement is required');
-        isValid = false;
-      }
+      // Step 2 (Optional executive summary)
+      isValid = true;
     } else if (step === 3) {
-      if (els.userRoles && !els.userRoles.value.trim()) {
-        showError(els.userRoles, 'Please define target user roles/personas');
-        isValid = false;
-      }
+      // Step 3 (Optional user roles)
+      isValid = true;
     } else if (step === 4) {
-      if (els.coreFeatureDetails && els.coreFeatureDetails.value.trim().length < 15) {
-        showError(els.coreFeatureDetails, 'Please outline key features');
-        isValid = false;
-      }
+      // Step 4 (Optional feature details)
+      isValid = true;
     }
     
     return isValid;

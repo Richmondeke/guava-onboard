@@ -45,10 +45,6 @@ export default async function handler(req, res) {
       errors.push('Invalid email format');
     }
 
-    if (!body.overview?.description?.trim()) {
-      errors.push('Executive summary/problem statement is required');
-    }
-
     if (errors.length > 0) {
       return res.status(400).json({ 
         success: false, 
@@ -111,6 +107,39 @@ export default async function handler(req, res) {
     console.log(JSON.stringify(lead, null, 2));
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━');
 
+    // ─── Forward to Supabase if configured ────────────────────────
+    const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (supabaseUrl && supabaseKey) {
+      try {
+        const { createClient } = await import('@supabase/supabase-js');
+        const supabase = createClient(supabaseUrl, supabaseKey);
+
+        const { data: dbResult, error: dbError } = await supabase
+          .from('prd_leads')
+          .insert([
+            {
+              lead_id: lead.id,
+              full_name: lead.contact.fullName,
+              email: lead.contact.email,
+              company: lead.contact.company,
+              phone: lead.contact.phone,
+              prd_data: lead,
+              created_at: new Date().toISOString()
+            }
+          ]);
+
+        if (dbError) {
+          console.error('Supabase DB Insert Error:', dbError.message);
+        } else {
+          console.log('Lead stored to Supabase successfully:', lead.id);
+        }
+      } catch (sbErr) {
+        console.error('Supabase integration error:', sbErr.message);
+      }
+    }
+
     // ─── Forward to webhook if configured ───────────────────────
     const webhookUrl = process.env.WEBHOOK_URL;
     
@@ -135,7 +164,6 @@ export default async function handler(req, res) {
           console.log('Webhook forwarded successfully');
         }
       } catch (webhookError) {
-        // Don't fail the user submission if webhook fails
         console.error('Webhook error:', webhookError.message);
       }
     }
